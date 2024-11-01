@@ -12,7 +12,7 @@ struct ExerciseOneView: View {
     @Binding var isPresented: Bool
     
     @State private var elapsedTime = 0
-    @State private var currentNumber = 1
+    @State private var currentNumber = 0
     @State private var currentPhase = 1
     @State private var phaseOneNumber = 1
     @State private var phaseTwoNumber = 1
@@ -24,7 +24,7 @@ struct ExerciseOneView: View {
     @ObservedObject private var hapticsManager = HapticsManager()
     var backgroundColor: String
     
-    let breathingOptions = ["Start", "Inhale", "Hold", "Exhale"]
+    let breathingOptions = ["Start", "Inhale", "Hold", "Exhale", "End"]
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect() // Creates a timer that updates user interface per second
         
     var body: some View {
@@ -59,7 +59,7 @@ struct ExerciseOneView: View {
                                                 .foregroundStyle(.white)
                                                 .contentTransition(.interpolate)
                                                 .transaction { t in
-                                                    t.animation = .easeIn
+                                                    t.animation = .default
                                                 }
                                                 .onReceive(timer) { i in
                                                     if isPlaying && elapsedTime <= 57 {
@@ -82,10 +82,6 @@ struct ExerciseOneView: View {
                                                     t.animation = .default
                                                 }
                                         }
-                                    }
-                                    .onAppear {
-                                        selectedBreathingOption = breathingOptions[0]
-                                        currentNumber = 0
                                     }
                             }
                         
@@ -154,15 +150,16 @@ struct ExerciseOneView: View {
     }
     
     func phaselogic(time: Int) {
+        
         // Play a haptic when going to the next round/end.
         
-        if elapsedTime == 19 {
+        if time == 19 {
             hapticsManager.phaseChange()
             currentRound = 1
-        } else if elapsedTime == 38 {
+        } else if time == 38 {
             hapticsManager.phaseChange()
             currentRound = 2
-        } else if elapsedTime == 57 {
+        } else if time == 57 {
             hapticsManager.phaseChange()
             currentRound = 3
         }
@@ -175,7 +172,6 @@ struct ExerciseOneView: View {
                 currentNumber = phaseOneNumber
                 phaseOneNumber += 1
                 selectedBreathingOption = breathingOptions[1]
-                
                 if currentNumber == 4 {
                     currentPhase = 2
                     phaseOneNumber = 1
@@ -184,7 +180,6 @@ struct ExerciseOneView: View {
                 currentNumber = phaseTwoNumber
                 phaseTwoNumber += 1
                 selectedBreathingOption = breathingOptions[2]
-                
                 if currentNumber == 7 {
                     currentPhase = 3
                     phaseTwoNumber = 1
@@ -193,7 +188,6 @@ struct ExerciseOneView: View {
                 currentNumber = phaseThreeNumber
                 phaseThreeNumber += 1
                 selectedBreathingOption = breathingOptions[3]
-                
                 if currentNumber == 8 {
                     currentPhase = 1
                     phaseThreeNumber = 1
@@ -202,20 +196,38 @@ struct ExerciseOneView: View {
                 print("Something weird happened...")
             }
         } else {
-            reset()
+            resetWhenCompleted()
+        }
+    }
+    
+    func resetWhenCompleted() {
+        // Resets back to original state
+        
+        isPlaying = false
+        
+        selectedBreathingOption = breathingOptions[4]
+        currentNumber = 0
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            phaseOneNumber = 1
+            phaseTwoNumber = 1
+            phaseThreeNumber = 1
+            currentPhase = 1
+            selectedBreathingOption = breathingOptions[0]
+            elapsedTime = 0
+            normalizedValue = 0
+            currentRound = 0
         }
     }
     
     func reset() {
-        // Resets back to original state
-        
         isPlaying = false
         currentNumber = 0
+        selectedBreathingOption = breathingOptions[0]
         phaseOneNumber = 1
         phaseTwoNumber = 1
         phaseThreeNumber = 1
         currentPhase = 1
-        selectedBreathingOption = breathingOptions[0]
         elapsedTime = 0
         normalizedValue = 0
         currentRound = 0

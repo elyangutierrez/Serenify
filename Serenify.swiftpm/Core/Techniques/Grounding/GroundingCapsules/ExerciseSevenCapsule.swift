@@ -28,7 +28,7 @@ struct ExerciseSevenCapsule: View {
                                     .font(.subheadline)
                                     .fontWeight(.bold)
                                     .foregroundStyle(Color("darkGray"))
-                                    .offset(x: -4, y: 6)
+                                    .offset(x: -4, y: 4.6)
                             }
                         }
                         .frame(maxHeight: .infinity, alignment: .top)

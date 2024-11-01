@@ -15,7 +15,6 @@ struct ProgressCircleView: View {
             ZStack {
                 Circle()
                     .stroke(
-                        /*Color.gray.opacity(0.3)*/
                         .ultraThinMaterial.opacity(0.6),
                         lineWidth: 8
                     )
@@ -28,6 +27,8 @@ struct ProgressCircleView: View {
                             lineCap: .round
                         )
                     )
+                    .shadow(color: .white, radius: 10)
+                    .shadow(color: .white, radius: 5)
                     .rotationEffect(.degrees(-90))
                     .animation(.smooth, value: progress)
             }
