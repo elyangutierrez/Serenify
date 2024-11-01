@@ -62,7 +62,7 @@ struct ExerciseOneView: View {
                                                     t.animation = .default
                                                 }
                                                 .onReceive(timer) { i in
-                                                    if isPlaying && elapsedTime <= 57 {
+                                                    if isPlaying && elapsedTime <= 58 {
                                                         elapsedTime += 1
                                                         normalizedValue = Double(elapsedTime) / 57.0
                                                         phaselogic(time: elapsedTime)
@@ -153,20 +153,20 @@ struct ExerciseOneView: View {
         
         // Play a haptic when going to the next round/end.
         
-        if time == 19 {
-            hapticsManager.phaseChange()
+        if time == 20 {
+            hapticsManager.roundChange()
             currentRound = 1
-        } else if time == 38 {
-            hapticsManager.phaseChange()
+        } else if time == 39 {
+            hapticsManager.roundChange()
             currentRound = 2
-        } else if time == 57 {
-            hapticsManager.phaseChange()
+        } else if time == 58 {
+            hapticsManager.roundChange()
             currentRound = 3
         }
 
         // Logic for changing phases, numbers, and text
         
-        if time <= 57 {
+        if time < 58 {
             switch currentPhase {
             case 1:
                 currentNumber = phaseOneNumber

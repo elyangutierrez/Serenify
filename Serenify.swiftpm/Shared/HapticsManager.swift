@@ -10,7 +10,7 @@ import Foundation
 class HapticsManager: ObservableObject {
     @Published var haptics = Haptics()
     
-    @MainActor func phaseChange() {
+    @MainActor func roundChange() {
         haptics.notify(.success)
     }
 }

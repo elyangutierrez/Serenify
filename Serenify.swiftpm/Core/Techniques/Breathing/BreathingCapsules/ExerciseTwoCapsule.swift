@@ -21,7 +21,7 @@ struct ExerciseTwoCapsule: View {
                     .overlay {
                         VStack(alignment: .leading) {
                             HStack {
-                                Text("30")
+                                Text("50")
                                     .font(.title)
                                     .fontWeight(.bold)
                                 Text("Secs")
