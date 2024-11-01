@@ -16,7 +16,7 @@ struct ExerciseTwoCapsule: View {
         NavigationStack {
             VStack {
                 RoundedRectangle(cornerRadius: 30.0)
-                    .fill(Color("pastelBlue"))
+                    .fill(LinearGradient(colors: [Color("pastelBlue"), Color("darkerPastelBlue")], startPoint: .top, endPoint: .bottom))
                     .frame(width: geometryWidth * 0.42, height: 175)
                     .overlay {
                         VStack(alignment: .leading) {

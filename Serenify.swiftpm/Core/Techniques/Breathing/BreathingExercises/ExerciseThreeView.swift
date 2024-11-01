@@ -15,7 +15,7 @@ struct ExerciseThreeView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(backgroundColor)
+                LinearGradient(colors: [Color("pastelGold"), Color("darkerPastelGold")], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
                 Text("Hello, World!")
             }

@@ -10,14 +10,13 @@ import SwiftUI
 struct ExerciseEightView: View {
     
     @Binding var isPresented: Bool
+    @State private var isPlaying = false
     var backgroundColor: String
     
     var body: some View {
         NavigationStack {
-            ZStack {
-                Color(backgroundColor)
-                    .ignoresSafeArea()
-                Text("Hello, World!")
+            VStack {
+                Text("Hello!")
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -31,7 +30,7 @@ struct ExerciseEightView: View {
                         isPresented = false
                     }) {
                         Circle()
-                            .fill(.black)
+                            .foregroundStyle(Color("darkerPastelGreen"))
                             .frame(width: 40, height: 40)
                             .overlay {
                                 Image(systemName: "xmark")

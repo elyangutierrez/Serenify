@@ -16,15 +16,15 @@ struct ExerciseOneCapsule: View {
         NavigationStack {
             VStack {
                 RoundedRectangle(cornerRadius: 30.0)
-                    .fill(Color("pastelGreen"))
+                    .fill(LinearGradient(colors: [Color("pastelGreen"), Color("darkerPastelGreen")], startPoint: .top, endPoint: .bottom))
                     .frame(width: geometryWidth * 0.42, height: 175)
                     .overlay {
                         VStack(alignment: .leading) {
                             HStack {
-                                Text("45")
+                                Text("01")
                                     .font(.title)
                                     .fontWeight(.bold)
-                                Text("Secs")
+                                Text("Min")
                                     .font(.subheadline)
                                     .fontWeight(.bold)
                                     .foregroundStyle(Color("darkGray"))

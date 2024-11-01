@@ -15,7 +15,7 @@ struct ExerciseFourView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(backgroundColor)
+                LinearGradient(colors: [Color("pastelPink"), Color("darkerPastelPink")], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
                 Text("Hello, World!")
             }

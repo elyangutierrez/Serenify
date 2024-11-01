@@ -15,7 +15,7 @@ struct ExerciseSixCapsule: View {
         NavigationStack {
             VStack {
                 RoundedRectangle(cornerRadius: 30.0)
-                    .fill(Color("pastelGold"))
+                    .fill(LinearGradient(colors: [Color("pastelGold"), Color("darkerPastelGold")], startPoint: .top, endPoint: .bottom))
                     .frame(width: geometryWidth, height: 150)
                     .overlay {
                         VStack {
@@ -24,7 +24,7 @@ struct ExerciseSixCapsule: View {
                                     .font(.title)
                                     .fontWeight(.bold)
                                 
-                                Text("Mins")
+                                Text("Min")
                                     .font(.subheadline)
                                     .fontWeight(.bold)
                                     .foregroundStyle(Color("darkGray"))
@@ -38,7 +38,7 @@ struct ExerciseSixCapsule: View {
                         
                         VStack {
                             Text("Count Backward from 100 by 7s")
-                                .font(.title)
+                                .font(.title2)
                                 .fontWeight(.bold)
                         }
                         .frame(maxHeight: .infinity, alignment: .bottom)

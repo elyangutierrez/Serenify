@@ -15,7 +15,7 @@ struct ExerciseSevenCapsule: View {
         NavigationStack {
             VStack {
                 RoundedRectangle(cornerRadius: 30.0)
-                    .fill(Color("pastelPink"))
+                    .fill(LinearGradient(colors: [Color("pastelPink"), Color("darkerPastelPink")], startPoint: .top, endPoint: .bottom))
                     .frame(width: geometryWidth, height: 150)
                     .overlay {
                         VStack {
@@ -24,7 +24,7 @@ struct ExerciseSevenCapsule: View {
                                     .font(.title)
                                     .fontWeight(.bold)
                                 
-                                Text("Mins")
+                                Text("Min")
                                     .font(.subheadline)
                                     .fontWeight(.bold)
                                     .foregroundStyle(Color("darkGray"))
@@ -38,7 +38,7 @@ struct ExerciseSevenCapsule: View {
                         
                         VStack {
                             Text("3-3-3")
-                                .font(.title)
+                                .font(.title2)
                                 .fontWeight(.bold)
                         }
                         .frame(maxHeight: .infinity, alignment: .bottom)

@@ -16,7 +16,7 @@ struct ExerciseFiveCapsule: View {
         NavigationStack {
             VStack {
                 RoundedRectangle(cornerRadius: 30.0)
-                    .fill(Color("pastelBlue"))
+                    .fill(LinearGradient(colors: [Color("pastelBlue"), Color("darkerPastelBlue")], startPoint: .top, endPoint: .bottom))
                     .frame(width: geometryWidth, height: 150)
                     .overlay {
                         VStack {
@@ -39,7 +39,7 @@ struct ExerciseFiveCapsule: View {
                         
                         VStack {
                             Text("5-4-3-2-1")
-                                .font(.title)
+                                .font(.title2)
                                 .fontWeight(.bold)
                         }
                         .frame(maxHeight: .infinity, alignment: .bottom)
