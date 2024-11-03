@@ -59,7 +59,7 @@ struct ExerciseOneView: View {
                                                 .foregroundStyle(.white)
                                                 .contentTransition(.interpolate)
                                                 .transaction { t in
-                                                    t.animation = .default
+                                                    t.animation = .smooth(duration: 0.2)
                                                 }
                                                 .onReceive(timer) { i in
                                                     if isPlaying && elapsedTime <= 58 {
@@ -73,7 +73,7 @@ struct ExerciseOneView: View {
                                             Spacer()
                                                 .frame(height: 20)
                                             
-                                            Text("0\(currentNumber)")
+                                            Text("\(currentNumber)")
                                                 .font(.title)
                                                 .fontWeight(.bold)
                                                 .foregroundStyle(.white)
@@ -101,6 +101,10 @@ struct ExerciseOneView: View {
                                         }
                                         .shadow(radius: 5, y: 5)
                                         .shadow(radius: 5, y: 5)
+                                        .contentTransition(.interpolate)
+                                        .transaction { t in
+                                            t.animation = .smooth(duration: 0.1)
+                                        }
                                 }
                             }
                             .offset(y: 15)

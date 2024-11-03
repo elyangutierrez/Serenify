@@ -60,7 +60,7 @@ struct ExerciseTwoView: View {
                                                 .foregroundStyle(.white)
                                                 .contentTransition(.interpolate)
                                                 .transaction { t in
-                                                    t.animation = .default
+                                                    t.animation = .smooth(duration: 0.2)
                                                 }
                                                 .onReceive(timer) { i in
                                                     if isPlaying && elapsedTime <= 49 {
@@ -74,7 +74,7 @@ struct ExerciseTwoView: View {
                                             Spacer()
                                                 .frame(height: 20)
                                             
-                                            Text("0\(currentNumber)")
+                                            Text("\(currentNumber)")
                                                 .font(.title)
                                                 .fontWeight(.bold)
                                                 .foregroundStyle(.white)
@@ -102,6 +102,10 @@ struct ExerciseTwoView: View {
                                         }
                                         .shadow(radius: 5, y: 5)
                                         .shadow(radius: 5, y: 5)
+                                        .contentTransition(.interpolate)
+                                        .transaction { t in
+                                            t.animation = .smooth(duration: 0.2)
+                                        }
                                 }
                             }
                             .offset(y: 15)
@@ -154,7 +158,6 @@ struct ExerciseTwoView: View {
         
         // Play a haptic when going to the next round/end.
         
-        // TODO: Match with 4-4-4-4
         if time == 17 {
             hapticsManager.roundChange()
             currentRound = 1
@@ -222,6 +225,7 @@ struct ExerciseTwoView: View {
             phaseOneNumber = 1
             phaseTwoNumber = 1
             phaseThreeNumber = 1
+            phaseFourNumber = 1
             currentPhase = 1
             selectedBreathingOption = breathingOptions[0]
             elapsedTime = 0
@@ -237,6 +241,7 @@ struct ExerciseTwoView: View {
         phaseOneNumber = 1
         phaseTwoNumber = 1
         phaseThreeNumber = 1
+        phaseFourNumber = 1
         currentPhase = 1
         elapsedTime = 0
         normalizedValue = 0
