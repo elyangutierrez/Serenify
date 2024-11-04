@@ -21,6 +21,7 @@ struct ExerciseThreeView: View {
     @State private var selectedBreathingOption = "Start"
     @State private var normalizedValue = 0.0
     @State private var currentRound = 0
+    @State private var showInfoSheet = false
     @ObservedObject private var hapticsManager = HapticsManager()
     var backgroundColor: String
     
@@ -92,12 +93,23 @@ struct ExerciseThreeView: View {
                                 }) {
                                     Circle()
                                         .fill(.black)
-                                        .frame(width: g.size.width * 0.27)
+                                        .frame(width: g.size.width * 0.25)
                                         .overlay {
-                                            Image(systemName: isPlaying == true ? "pause.fill" : "play.fill")
+                                            Image(systemName: "pause.fill")
                                                 .resizable()
                                                 .frame(width: 30, height: 30)
                                                 .tint(.white)
+                                                .scaleEffect(isPlaying ? 1 : 0)
+                                                .opacity(isPlaying ? 1 : 0)
+                                                .animation(.interpolatingSpring(stiffness: 175, damping: 15), value: isPlaying)
+                                            
+                                            Image(systemName: "play.fill")
+                                                .resizable()
+                                                .frame(width: 30, height: 30)
+                                                .tint(.white)
+                                                .scaleEffect(isPlaying ? 0 : 1)
+                                                .opacity(isPlaying ? 0 : 1)
+                                                .animation(.interpolatingSpring(stiffness: 175, damping: 15), value: isPlaying)
                                         }
                                         .shadow(radius: 5, y: 5)
                                         .shadow(radius: 5, y: 5)
@@ -131,20 +143,54 @@ struct ExerciseThreeView: View {
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: {
-                        reset()
-                    }) {
+                    Menu {
+                        Button(action: {
+                            reset()
+                        }) {
+                            Label("Reset", systemImage: "arrow.clockwise")
+                        }
+                        
+                        Button(action: {
+                            showInfoSheet.toggle()
+                        }) {
+                            Label("Info", systemImage: "info")
+                        }
+                    } label: {
                         Circle()
                             .fill(Color("darkerPastelGold"))
                             .frame(width: 40, height: 40)
                             .overlay {
-                                Image(systemName: "arrow.clockwise")
+                                Image(systemName: "ellipsis")
                                     .foregroundStyle(.white)
                                     .fontWeight(.bold)
-                                    .offset(y: -1)
                             }
                     }
                 }
+            }
+            .sheet(isPresented: $showInfoSheet) {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        VStack {
+                            Text("Exercise Info")
+                                .font(.title)
+                                .fontWeight(.bold)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                        Spacer()
+                            .frame(height: 20)
+                        
+                        VStack(alignment: .leading) {
+                            Text("Inhale through the nose for 3 seconds. Hold for breath for 3 seconds. Exhale through the mouth for 3 seconds. Repeat for 3 times.")
+                        }
+                        .offset(y: -5)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
+                }
+                .presentationBackground(.thinMaterial)
+                .presentationDragIndicator(.visible)
+                .presentationDetents([.height((UIScreen.current?.bounds.size.height ?? 0) * 0.25)])
             }
         }
     }

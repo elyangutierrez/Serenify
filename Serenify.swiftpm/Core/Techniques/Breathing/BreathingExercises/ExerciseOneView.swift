@@ -21,6 +21,8 @@ struct ExerciseOneView: View {
     @State private var selectedBreathingOption = "Start"
     @State private var normalizedValue = 0.0
     @State private var currentRound = 0
+    @State private var currentPlayImage = "play.fill"
+    @State private var showInfoSheet = false
     @ObservedObject private var hapticsManager = HapticsManager()
     var backgroundColor: String
     
@@ -69,7 +71,7 @@ struct ExerciseOneView: View {
                                                         print("Time: \(elapsedTime) secs")
                                                     }
                                                 }
-
+                                            
                                             Spacer()
                                                 .frame(height: 20)
                                             
@@ -85,30 +87,53 @@ struct ExerciseOneView: View {
                                     }
                             }
                         
-                        VStack {
-                            VStack {
-                                Button(action: {
-                                    isPlaying.toggle()
-                                }) {
-                                    Circle()
-                                        .fill(.black)
-                                        .frame(width: g.size.width * 0.27)
-                                        .overlay {
-                                            Image(systemName: isPlaying == true ? "pause.fill" : "play.fill")
-                                                .resizable()
-                                                .frame(width: 30, height: 30)
-                                                .tint(.white)
-                                        }
-                                        .shadow(radius: 5, y: 5)
-                                        .shadow(radius: 5, y: 5)
-                                        .contentTransition(.interpolate)
-                                        .transaction { t in
-                                            t.animation = .smooth(duration: 0.1)
-                                        }
-                                }
+                        
+                        if UIDevice.current.userInterfaceIdiom == .phone {
+                            Button(action: {
+                                isPlaying.toggle()
+                            }) {
+                                Circle()
+                                    .fill(.black)
+                                    .frame(width: g.size.width * 0.27)
+                                    .overlay {
+                                        Image(systemName: isPlaying == true ? "pause.fill" : "play.fill")
+                                            .resizable()
+                                            .frame(width: 30, height: 30)
+                                            .tint(.white)
+                                    }
+                                    .shadow(radius: 5, y: 5)
+                                    .shadow(radius: 5, y: 5)
+                                    .contentTransition(.interpolate)
+                                    .transaction { t in
+                                        t.animation = .smooth(duration: 0.1)
+                                    }
+                                
                             }
-                            .offset(y: 15)
+                        } else if UIDevice.current.userInterfaceIdiom == .pad {
+                            Button(action: {
+                                isPlaying.toggle()
+                            }) {
+                                Circle()
+                                    .fill(.black)
+                                    .frame(width: g.size.width * 0.27)
+                                    .overlay {
+                                        Image(systemName: isPlaying == true ? "pause.fill" : "play.fill")
+                                            .resizable()
+                                            .frame(width: 60, height: 60)
+                                            .tint(.white)
+                                    }
+                                    .shadow(radius: 5, y: 5)
+                                    .shadow(radius: 5, y: 5)
+                                    .contentTransition(.interpolate)
+                                    .transaction { t in
+                                        t.animation = .smooth(duration: 0.1)
+                                    }
+                                
+                            }
                         }
+                        
+                        Spacer()
+                            .frame(height: 20)
                     }
                 }
             }
@@ -135,20 +160,54 @@ struct ExerciseOneView: View {
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: {
-                        reset()
-                    }) {
+                    Menu {
+                        Button(action: {
+                            reset()
+                        }) {
+                            Label("Reset", systemImage: "arrow.clockwise")
+                        }
+                        
+                        Button(action: {
+                            showInfoSheet.toggle()
+                        }) {
+                            Label("Info", systemImage: "info")
+                        }
+                    } label: {
                         Circle()
                             .fill(Color("darkerPastelGreen"))
                             .frame(width: 40, height: 40)
                             .overlay {
-                                Image(systemName: "arrow.clockwise")
+                                Image(systemName: "ellipsis")
                                     .foregroundStyle(.white)
                                     .fontWeight(.bold)
-                                    .offset(y: -1)
                             }
                     }
                 }
+            }
+            .sheet(isPresented: $showInfoSheet) {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        VStack {
+                            Text("Exercise Info")
+                                .font(.title)
+                                .fontWeight(.bold)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                        Spacer()
+                            .frame(height: 20)
+                        
+                        VStack(alignment: .leading) {
+                            Text("Inhale through the nose for 4 seconds. Hold the breath for 7 seconds. Exhale through the mouth for seconds. Repeat for 3 cycles.")
+                        }
+                        .offset(y: -5)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
+                }
+                .presentationBackground(.thinMaterial)
+                .presentationDragIndicator(.visible)
+                .presentationDetents([.height((UIScreen.current?.bounds.size.height ?? 0) * 0.25)])
             }
         }
     }

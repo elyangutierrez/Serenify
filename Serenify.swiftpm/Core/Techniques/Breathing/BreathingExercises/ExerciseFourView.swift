@@ -21,6 +21,7 @@ struct ExerciseFourView: View {
     @State private var normalizedValue = 0.0
     @State private var currentRound = 0
     @State private var currentCount = 6
+    @State private var showInfoSheet = false
     @ObservedObject private var hapticsManager = HapticsManager()
     var backgroundColor: String
     
@@ -35,14 +36,14 @@ struct ExerciseFourView: View {
                         .ignoresSafeArea()
                     VStack {
                         
-//                        Text("\(currentRound)")
-//                            .font(.largeTitle)
-//                            .fontWeight(.bold)
-//                            .contentTransition(.numericText(countsDown: false))
-//                            .transaction { t in
-//                                t.animation = .default
-//                            }
-//                            .offset(y: 50)
+                        Text("\(currentRound)")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .contentTransition(.numericText(countsDown: false))
+                            .transaction { t in
+                                t.animation = .default
+                            }
+                            .offset(y: 50)
                         
                         ProgressCircleView(progress: normalizedValue)
                             .frame(width: g.size.width * 0.70, height: g.size.height * 0.70)
@@ -92,19 +93,26 @@ struct ExerciseFourView: View {
                                 }) {
                                     Circle()
                                         .fill(.black)
-                                        .frame(width: g.size.width * 0.27)
+                                        .frame(width: g.size.width * 0.25)
                                         .overlay {
-                                            Image(systemName: isPlaying == true ? "pause.fill" : "play.fill")
+                                            Image(systemName: "pause.fill")
                                                 .resizable()
                                                 .frame(width: 30, height: 30)
                                                 .tint(.white)
+                                                .scaleEffect(isPlaying ? 1 : 0)
+                                                .opacity(isPlaying ? 1 : 0)
+                                                .animation(.interpolatingSpring(stiffness: 175, damping: 15), value: isPlaying)
+                                            
+                                            Image(systemName: "play.fill")
+                                                .resizable()
+                                                .frame(width: 30, height: 30)
+                                                .tint(.white)
+                                                .scaleEffect(isPlaying ? 0 : 1)
+                                                .opacity(isPlaying ? 0 : 1)
+                                                .animation(.interpolatingSpring(stiffness: 175, damping: 15), value: isPlaying)
                                         }
                                         .shadow(radius: 5, y: 5)
                                         .shadow(radius: 5, y: 5)
-                                        .contentTransition(.interpolate)
-                                        .transaction { t in
-                                            t.animation = .smooth(duration: 0.1)
-                                        }
                                 }
                             }
                             .offset(y: 15)
@@ -135,20 +143,54 @@ struct ExerciseFourView: View {
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: {
-                        reset()
-                    }) {
+                    Menu {
+                        Button(action: {
+                            reset()
+                        }) {
+                            Label("Reset", systemImage: "arrow.clockwise")
+                        }
+                        
+                        Button(action: {
+                            showInfoSheet.toggle()
+                        }) {
+                            Label("Info", systemImage: "info")
+                        }
+                    } label: {
                         Circle()
                             .fill(Color("darkerPastelPink"))
                             .frame(width: 40, height: 40)
                             .overlay {
-                                Image(systemName: "arrow.clockwise")
+                                Image(systemName: "ellipsis")
                                     .foregroundStyle(.white)
                                     .fontWeight(.bold)
-                                    .offset(y: -1)
                             }
                     }
                 }
+            }
+            .sheet(isPresented: $showInfoSheet) {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        VStack {
+                            Text("Exercise Info")
+                                .font(.title)
+                                .fontWeight(.bold)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                        Spacer()
+                            .frame(height: 20)
+                        
+                        VStack(alignment: .leading) {
+                            Text("Inhale through the nose for 4 seconds. Exhale through the mouth for 6 seconds. After exhaling, repeat but increment the number of seconds by 1 when exhaling until you reach 10 seconds.")
+                        }
+                        .offset(y: -5)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
+                }
+                .presentationBackground(.thinMaterial)
+                .presentationDragIndicator(.visible)
+                .presentationDetents([.height((UIScreen.current?.bounds.size.height ?? 0) * 0.25)])
             }
         }
     }
