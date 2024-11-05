@@ -2,28 +2,28 @@
 //  SwiftUIView.swift
 //  Serenify
 //
-//  Created by Elyan Gutierrez on 10/29/24.
+//  Created by Elyan Gutierrez on 11/4/24.
 //
 
 import SwiftUI
 
-struct AffirmationsView: View {
+struct JournalView: View {
     var body: some View {
         NavigationStack {
             ZStack {
                 Color.black
                     .ignoresSafeArea()
                 VStack {
-                    Text("Affirmations View")
+                    Text("Hello, World!")
                         .foregroundStyle(.white)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text("Affirmations")
+                    Text("Journaling")
                         .foregroundStyle(.white)
-                        .fontWeight(.bold)
+                        .fontWeight(.semibold)
                 }
             }
         }
@@ -31,5 +31,5 @@ struct AffirmationsView: View {
 }
 
 #Preview {
-    AffirmationsView()
+    JournalView()
 }

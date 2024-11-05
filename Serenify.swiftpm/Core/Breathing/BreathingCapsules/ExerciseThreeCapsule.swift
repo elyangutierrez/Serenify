@@ -1,5 +1,5 @@
 //
-//  SwiftUIView 2.swift
+//  SwiftUIView 3.swift
 //  Serenify
 //
 //  Created by Elyan Gutierrez on 10/30/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ExerciseTwoCapsule: View {
+struct ExerciseThreeCapsule: View {
     
     @State private var isPresented: Bool = false
     var geometryWidth: CGFloat
@@ -16,12 +16,12 @@ struct ExerciseTwoCapsule: View {
         NavigationStack {
             VStack {
                 RoundedRectangle(cornerRadius: 30.0)
-                    .fill(LinearGradient(colors: [Color("pastelBlue"), Color("darkerPastelBlue")], startPoint: .top, endPoint: .bottom))
+                    .fill(LinearGradient(colors: [Color("pastelGold"), Color("darkerPastelGold")], startPoint: .top, endPoint: .bottom))
                     .frame(width: geometryWidth * 0.42, height: 175)
                     .overlay {
                         VStack(alignment: .leading) {
                             HStack {
-                                Text("50")
+                                Text("30")
                                     .font(.title)
                                     .fontWeight(.bold)
                                 Text("Secs")
@@ -37,7 +37,7 @@ struct ExerciseTwoCapsule: View {
                         .padding(.vertical, 15)
                         
                         VStack(alignment: .leading) {
-                            Text("Box")
+                            Text("3-3-3")
                                 .font(.title2)
                                 .fontWeight(.bold)
                             Text("Breathing")
@@ -54,12 +54,12 @@ struct ExerciseTwoCapsule: View {
                     }
             }
             .fullScreenCover(isPresented: $isPresented) {
-                ExerciseTwoView(isPresented: $isPresented, backgroundColor: "pastelBlue")
+                ExerciseThreeView(isPresented: $isPresented)
             }
         }
     }
 }
 
 #Preview {
-    ExerciseTwoCapsule(geometryWidth: 400)
+    ExerciseThreeCapsule(geometryWidth: 400)
 }

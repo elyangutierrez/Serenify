@@ -11,14 +11,14 @@ struct ViewNavigator: View {
     var body: some View {
         TabView {
             Group {
-                TechniquesView()
+                BreathingView()
                     .tabItem {
-                        Label("Techniques", systemImage: "figure")
+                        Label("Breathing", systemImage: "figure")
                     }
                 
-                AffirmationsView()
+                JournalView()
                     .tabItem {
-                        Label("Affirmations", systemImage: "speaker.wave.3")
+                        Label("Journaling", systemImage: "book")
                     }
                 
                 ImageryView()

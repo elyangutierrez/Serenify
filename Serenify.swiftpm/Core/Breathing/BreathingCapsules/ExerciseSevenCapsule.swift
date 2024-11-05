@@ -1,34 +1,33 @@
 //
-//  SwiftUIView.swift
+//  SwiftUIView 3.swift
 //  Serenify
 //
-//  Created by Elyan Gutierrez on 10/30/24.
+//  Created by Elyan Gutierrez on 11/4/24.
 //
 
 import SwiftUI
 
 struct ExerciseSevenCapsule: View {
-    @State private var isPresented = false
+    @State private var isPresented: Bool = false
     var geometryWidth: CGFloat
     
     var body: some View {
         NavigationStack {
             VStack {
                 RoundedRectangle(cornerRadius: 30.0)
-                    .fill(LinearGradient(colors: [Color("pastelPink"), Color("darkerPastelPink")], startPoint: .top, endPoint: .bottom))
-                    .frame(width: geometryWidth, height: 150)
+                    .fill(LinearGradient(colors: [Color("pastelGreen"), Color("darkerPastelGreen")], startPoint: .top, endPoint: .bottom))
+                    .frame(width: geometryWidth, height: 175)
                     .overlay {
-                        VStack {
+                        VStack(alignment: .leading) {
                             HStack {
-                                Text("01")
+                                Text("02")
                                     .font(.title)
                                     .fontWeight(.bold)
-                                
-                                Text("Min")
+                                Text("Mins")
                                     .font(.subheadline)
                                     .fontWeight(.bold)
                                     .foregroundStyle(Color("darkGray"))
-                                    .offset(x: -4, y: 4.6)
+                                    .offset(x: -4, y: 4)
                             }
                         }
                         .frame(maxHeight: .infinity, alignment: .top)
@@ -36,8 +35,11 @@ struct ExerciseSevenCapsule: View {
                         .padding(.horizontal, 15)
                         .padding(.vertical, 15)
                         
-                        VStack {
-                            Text("3-3-3")
+                        VStack(alignment: .leading) {
+                            Text("Lion's")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                            Text("Breathing")
                                 .font(.title2)
                                 .fontWeight(.bold)
                         }
@@ -51,7 +53,7 @@ struct ExerciseSevenCapsule: View {
                     }
             }
             .fullScreenCover(isPresented: $isPresented) {
-                ExerciseSevenView(isPresented: $isPresented, backgroundColor: "pastelPink")
+                ExerciseSevenView(isPresented: $isPresented)
             }
         }
     }

@@ -1,5 +1,5 @@
 //
-//  SwiftUIView.swift
+//  SwiftUIView 4.swift
 //  Serenify
 //
 //  Created by Elyan Gutierrez on 10/30/24.
@@ -7,28 +7,28 @@
 
 import SwiftUI
 
-struct ExerciseEightCapsule: View {
-    @State private var isPresented = false
+struct ExerciseFourCapsule: View {
+    
+    @State private var isPresented: Bool = false
     var geometryWidth: CGFloat
     
     var body: some View {
         NavigationStack {
             VStack {
                 RoundedRectangle(cornerRadius: 30.0)
-                    .fill(LinearGradient(colors: [Color("pastelGreen"), Color("darkerPastelGreen")], startPoint: .top, endPoint: .bottom))
-                    .frame(width: geometryWidth, height: 150)
+                    .fill(LinearGradient(colors: [Color("pastelPink"), Color("darkerPastelPink")], startPoint: .top, endPoint: .bottom))
+                    .frame(width: geometryWidth * 0.42, height: 175)
                     .overlay {
-                        VStack {
+                        VStack(alignment: .leading) {
                             HStack {
-                                Text("03")
+                                Text("01")
                                     .font(.title)
                                     .fontWeight(.bold)
-                                
-                                Text("Mins")
+                                Text("Min")
                                     .font(.subheadline)
                                     .fontWeight(.bold)
                                     .foregroundStyle(Color("darkGray"))
-                                    .offset(x: -4, y: 4.6)
+                                    .offset(x: -4, y: 4)
                             }
                         }
                         .frame(maxHeight: .infinity, alignment: .top)
@@ -36,8 +36,11 @@ struct ExerciseEightCapsule: View {
                         .padding(.horizontal, 15)
                         .padding(.vertical, 15)
                         
-                        VStack {
-                            Text("Rainbow")
+                        VStack(alignment: .leading) {
+                            Text("Extended")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                            Text("Breathing")
                                 .font(.title2)
                                 .fontWeight(.bold)
                         }
@@ -51,12 +54,12 @@ struct ExerciseEightCapsule: View {
                     }
             }
             .fullScreenCover(isPresented: $isPresented) {
-                ExerciseEightView(isPresented: $isPresented, backgroundColor: "pastelGreen")
+                ExerciseFourView(isPresented: $isPresented)
             }
         }
     }
 }
 
 #Preview {
-    ExerciseEightCapsule(geometryWidth: 400)
+    ExerciseFourCapsule(geometryWidth: 400)
 }

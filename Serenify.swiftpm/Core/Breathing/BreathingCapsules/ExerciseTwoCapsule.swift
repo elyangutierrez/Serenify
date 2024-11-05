@@ -1,5 +1,5 @@
 //
-//  SwiftUIView.swift
+//  SwiftUIView 2.swift
 //  Serenify
 //
 //  Created by Elyan Gutierrez on 10/30/24.
@@ -7,28 +7,28 @@
 
 import SwiftUI
 
-struct ExerciseSixCapsule: View {
-    @State private var isPresented = false
+struct ExerciseTwoCapsule: View {
+    
+    @State private var isPresented: Bool = false
     var geometryWidth: CGFloat
     
     var body: some View {
         NavigationStack {
             VStack {
                 RoundedRectangle(cornerRadius: 30.0)
-                    .fill(LinearGradient(colors: [Color("pastelGold"), Color("darkerPastelGold")], startPoint: .top, endPoint: .bottom))
-                    .frame(width: geometryWidth, height: 150)
+                    .fill(LinearGradient(colors: [Color("pastelBlue"), Color("darkerPastelBlue")], startPoint: .top, endPoint: .bottom))
+                    .frame(width: geometryWidth * 0.42, height: 175)
                     .overlay {
-                        VStack {
+                        VStack(alignment: .leading) {
                             HStack {
-                                Text("01")
+                                Text("50")
                                     .font(.title)
                                     .fontWeight(.bold)
-                                
-                                Text("Min")
+                                Text("Secs")
                                     .font(.subheadline)
                                     .fontWeight(.bold)
                                     .foregroundStyle(Color("darkGray"))
-                                    .offset(x: -4, y: 4.6)
+                                    .offset(x: -4, y: 4)
                             }
                         }
                         .frame(maxHeight: .infinity, alignment: .top)
@@ -36,8 +36,11 @@ struct ExerciseSixCapsule: View {
                         .padding(.horizontal, 15)
                         .padding(.vertical, 15)
                         
-                        VStack {
-                            Text("Count Backward from 100 by 7s")
+                        VStack(alignment: .leading) {
+                            Text("Box")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                            Text("Breathing")
                                 .font(.title2)
                                 .fontWeight(.bold)
                         }
@@ -51,12 +54,12 @@ struct ExerciseSixCapsule: View {
                     }
             }
             .fullScreenCover(isPresented: $isPresented) {
-                ExerciseSixView(isPresented: $isPresented, backgroundColor: "pastelGold")
+                ExerciseTwoView(isPresented: $isPresented)
             }
         }
     }
 }
 
 #Preview {
-    ExerciseSixCapsule(geometryWidth: 400)
+    ExerciseTwoCapsule(geometryWidth: 400)
 }

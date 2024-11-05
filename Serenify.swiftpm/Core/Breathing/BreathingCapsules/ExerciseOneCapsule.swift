@@ -54,7 +54,7 @@ struct ExerciseOneCapsule: View {
                     }
             }
             .fullScreenCover(isPresented: $isPresented) {
-                ExerciseOneView(isPresented: $isPresented, backgroundColor: "pastelGreen")
+                ExerciseOneView(isPresented: $isPresented)
             }
         }
     }

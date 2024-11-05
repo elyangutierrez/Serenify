@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TechniquesView: View {
+struct BreathingView: View {
     
     var body: some View {
         NavigationStack {
@@ -20,7 +20,7 @@ struct TechniquesView: View {
                             .frame(height: 20)
                         
                         VStack(alignment: .leading) {
-                            Text("Deep Breathing")
+                            Text("Exercises")
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .foregroundStyle(.white)
@@ -64,41 +64,46 @@ struct TechniquesView: View {
                             }
                         }
                         
-                        Spacer()
-                            .frame(height: 20)
                         
-                        VStack {
-                            Text("Grounding")
+                       Spacer()
+                           .frame(height: 20)
+                        
+                        VStack(alignment: .leading) {
+                            Text("Longer Exercises")
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .foregroundStyle(.white)
+                            
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 15)
+                         
+                        Spacer()
+                            .frame(height: 20)
                         
                         VStack {
-                            ExerciseFiveCapsule(geometryWidth: g.size.width * 0.90)
+                            ExerciseFiveCapsule(geometryWidth: g.size.width * 0.9)
                         }
                         
                         Spacer()
                             .frame(height: 20)
                         
                         VStack {
-                            ExerciseSixCapsule(geometryWidth: g.size.width * 0.90)
+                            ExerciseSixCapsule(geometryWidth: g.size.width * 0.9)
                         }
                         
                         Spacer()
                             .frame(height: 20)
                         
                         VStack {
-                            ExerciseSevenCapsule(geometryWidth: g.size.width * 0.90)
+                            ExerciseSevenCapsule(geometryWidth: g.size.width * 0.9)
                         }
                         
                         Spacer()
                             .frame(height: 20)
                         
                         VStack {
-                            ExerciseEightCapsule(geometryWidth: g.size.width * 0.90)
+                            ExerciseEightCapsule(geometryWidth: g.size.width * 0.9)
                         }
                         
                         Spacer()
@@ -109,7 +114,7 @@ struct TechniquesView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text("Techniques")
+                    Text("Breathing")
                         .foregroundStyle(.white)
                         .fontWeight(.bold)
                 }
@@ -120,5 +125,5 @@ struct TechniquesView: View {
 }
 
 #Preview {
-    TechniquesView()
+    BreathingView()
 }

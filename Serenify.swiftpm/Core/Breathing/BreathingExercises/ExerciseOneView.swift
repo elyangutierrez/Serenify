@@ -21,10 +21,8 @@ struct ExerciseOneView: View {
     @State private var selectedBreathingOption = "Start"
     @State private var normalizedValue = 0.0
     @State private var currentRound = 0
-    @State private var currentPlayImage = "play.fill"
     @State private var showInfoSheet = false
     @ObservedObject private var hapticsManager = HapticsManager()
-    var backgroundColor: String
     
     let breathingOptions = ["Start", "Inhale", "Hold", "Exhale", "End"]
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect() // Creates a timer that updates user interface per second
@@ -94,20 +92,26 @@ struct ExerciseOneView: View {
                             }) {
                                 Circle()
                                     .fill(.black)
-                                    .frame(width: g.size.width * 0.27)
+                                    .frame(width: g.size.width * 0.25)
                                     .overlay {
-                                        Image(systemName: isPlaying == true ? "pause.fill" : "play.fill")
+                                        Image(systemName: "pause.fill")
                                             .resizable()
                                             .frame(width: 30, height: 30)
                                             .tint(.white)
+                                            .scaleEffect(isPlaying ? 1 : 0)
+                                            .opacity(isPlaying ? 1 : 0)
+                                            .animation(.interpolatingSpring(stiffness: 175, damping: 15), value: isPlaying)
+                                        
+                                        Image(systemName: "play.fill")
+                                            .resizable()
+                                            .frame(width: 30, height: 30)
+                                            .tint(.white)
+                                            .scaleEffect(isPlaying ? 0 : 1)
+                                            .opacity(isPlaying ? 0 : 1)
+                                            .animation(.interpolatingSpring(stiffness: 175, damping: 15), value: isPlaying)
                                     }
                                     .shadow(radius: 5, y: 5)
                                     .shadow(radius: 5, y: 5)
-                                    .contentTransition(.interpolate)
-                                    .transaction { t in
-                                        t.animation = .smooth(duration: 0.1)
-                                    }
-                                
                             }
                         } else if UIDevice.current.userInterfaceIdiom == .pad {
                             Button(action: {
@@ -115,20 +119,26 @@ struct ExerciseOneView: View {
                             }) {
                                 Circle()
                                     .fill(.black)
-                                    .frame(width: g.size.width * 0.27)
+                                    .frame(width: g.size.width * 0.25)
                                     .overlay {
-                                        Image(systemName: isPlaying == true ? "pause.fill" : "play.fill")
+                                        Image(systemName: "pause.fill")
                                             .resizable()
                                             .frame(width: 60, height: 60)
                                             .tint(.white)
+                                            .scaleEffect(isPlaying ? 1 : 0)
+                                            .opacity(isPlaying ? 1 : 0)
+                                            .animation(.interpolatingSpring(stiffness: 175, damping: 15), value: isPlaying)
+                                        
+                                        Image(systemName: "play.fill")
+                                            .resizable()
+                                            .frame(width: 60, height: 60)
+                                            .tint(.white)
+                                            .scaleEffect(isPlaying ? 0 : 1)
+                                            .opacity(isPlaying ? 0 : 1)
+                                            .animation(.interpolatingSpring(stiffness: 175, damping: 15), value: isPlaying)
                                     }
                                     .shadow(radius: 5, y: 5)
                                     .shadow(radius: 5, y: 5)
-                                    .contentTransition(.interpolate)
-                                    .transaction { t in
-                                        t.animation = .smooth(duration: 0.1)
-                                    }
-                                
                             }
                         }
                         
@@ -205,9 +215,10 @@ struct ExerciseOneView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
                 }
-                .presentationBackground(.thinMaterial)
+                .presentationBackground(.regularMaterial)
                 .presentationDragIndicator(.visible)
-                .presentationDetents([.height((UIScreen.current?.bounds.size.height ?? 0) * 0.25)])
+                .presentationDetents([.height((UIScreen.current?.bounds.size.height ?? 200) * 0.25)])
+                .presentationCornerRadius(25.0)
             }
         }
     }
@@ -216,15 +227,11 @@ struct ExerciseOneView: View {
         
         // Play a haptic when going to the next round/end.
         
-        if time == 20 {
-            hapticsManager.roundChange()
-            currentRound = 1
-        } else if time == 39 {
-            hapticsManager.roundChange()
-            currentRound = 2
-        } else if time == 58 {
-            hapticsManager.roundChange()
-            currentRound = 3
+        if time.isMultiple(of: 19) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                hapticsManager.roundChange()
+                currentRound += 1
+            }
         }
 
         // Logic for changing phases, numbers, and text
@@ -298,5 +305,5 @@ struct ExerciseOneView: View {
 }
 
 #Preview {
-    ExerciseOneView(isPresented: .constant(true), backgroundColor: "pastelGreen")
+    ExerciseOneView(isPresented: .constant(true))
 }

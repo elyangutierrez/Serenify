@@ -1,14 +1,13 @@
 //
-//  SwiftUIView 3.swift
+//  SwiftUIView 4.swift
 //  Serenify
 //
-//  Created by Elyan Gutierrez on 10/30/24.
+//  Created by Elyan Gutierrez on 11/4/24.
 //
 
 import SwiftUI
 
-struct ExerciseThreeCapsule: View {
-    
+struct ExerciseEightCapsule: View {
     @State private var isPresented: Bool = false
     var geometryWidth: CGFloat
     
@@ -16,15 +15,15 @@ struct ExerciseThreeCapsule: View {
         NavigationStack {
             VStack {
                 RoundedRectangle(cornerRadius: 30.0)
-                    .fill(LinearGradient(colors: [Color("pastelGold"), Color("darkerPastelGold")], startPoint: .top, endPoint: .bottom))
-                    .frame(width: geometryWidth * 0.42, height: 175)
+                    .fill(LinearGradient(colors: [Color("pastelPink"), Color("darkerPastelPink")], startPoint: .top, endPoint: .bottom))
+                    .frame(width: geometryWidth, height: 175)
                     .overlay {
                         VStack(alignment: .leading) {
                             HStack {
-                                Text("30")
+                                Text("05")
                                     .font(.title)
                                     .fontWeight(.bold)
-                                Text("Secs")
+                                Text("Mins")
                                     .font(.subheadline)
                                     .fontWeight(.bold)
                                     .foregroundStyle(Color("darkGray"))
@@ -37,7 +36,7 @@ struct ExerciseThreeCapsule: View {
                         .padding(.vertical, 15)
                         
                         VStack(alignment: .leading) {
-                            Text("3-3-3")
+                            Text("7-11")
                                 .font(.title2)
                                 .fontWeight(.bold)
                             Text("Breathing")
@@ -54,12 +53,12 @@ struct ExerciseThreeCapsule: View {
                     }
             }
             .fullScreenCover(isPresented: $isPresented) {
-                ExerciseThreeView(isPresented: $isPresented, backgroundColor: "pastelGold")
+                ExerciseEightView(isPresented: $isPresented)
             }
         }
     }
 }
 
 #Preview {
-    ExerciseThreeCapsule(geometryWidth: 400)
+    ExerciseEightCapsule(geometryWidth: 400)
 }
