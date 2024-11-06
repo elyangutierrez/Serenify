@@ -111,6 +111,7 @@ struct BreathingView: View {
                     }
                 }
             }
+            .preferredColorScheme(.dark)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -119,7 +120,7 @@ struct BreathingView: View {
                         .fontWeight(.bold)
                 }
             }
-            .toolbarBackground(Color.black.opacity(0.85), for: .navigationBar)
+            .toolbarBackground(Color("darkerGray").opacity(0.97), for: .navigationBar)
         }
     }
 }

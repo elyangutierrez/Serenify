@@ -21,9 +21,9 @@ struct ViewNavigator: View {
                         Label("Journaling", systemImage: "book")
                     }
                 
-                ImageryView()
+                MeditationView()
                     .tabItem {
-                        Label("Imagery", systemImage: "photo")
+                        Label("Meditation", systemImage: "figure.mind.and.body")
                     }
                 
                 SettingsView()
@@ -31,11 +31,11 @@ struct ViewNavigator: View {
                         Label("Settings", systemImage: "gear")
                     }
             }
-            .toolbarBackground(.black.opacity(0.85), for: .tabBar)
+            .toolbarBackground(Color("darkerGray").opacity(0.97), for: .tabBar)
             .toolbarBackground(.visible, for: .tabBar)
         }
         .tint(UIDevice.current.userInterfaceIdiom == .phone ? .white : .black)
-        .preferredColorScheme(.light)
+        .preferredColorScheme(.dark)
     }
 }
 

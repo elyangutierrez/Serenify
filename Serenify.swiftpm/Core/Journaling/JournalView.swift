@@ -5,19 +5,139 @@
 //  Created by Elyan Gutierrez on 11/4/24.
 //
 
+import SwiftData
 import SwiftUI
 
 struct JournalView: View {
+    
+    @Query var entries: [Entry]
+    
+    @ObservedObject private var hapticsManager = HapticsManager()
+    
+    @State private var showEntrySheet = false
+    @State private var scale: CGFloat = 1.0
+    @State private var selectedSortingOption = "Sort by Date"
+    
+    let sortingOptions = ["Sort by Date", "Sort by Title"].sorted()
+    
+    var sortedResults: [Entry] {
+        if selectedSortingOption == "Sort by Date" {
+            return entries.sorted(by: { $0.date > $1.date })
+        } else {
+            return entries.sorted(by: { $0.title < $1.title } )
+        }
+    }
+    
     var body: some View {
         NavigationStack {
-            ZStack {
-                Color.black
-                    .ignoresSafeArea()
-                VStack {
-                    Text("Hello, World!")
-                        .foregroundStyle(.white)
+            GeometryReader { g in
+                ZStack {
+                    Color.black
+                        .ignoresSafeArea()
+                    
+                    ScrollView {
+                        
+                        Spacer()
+                            .frame(height: 25)
+                        
+                        LazyVStack {
+                            ForEach(sortedResults, id: \.self) { entry in
+                                
+                                ZStack {
+                                    VStack(alignment: .leading) {
+                                        
+                                        HStack {
+                                            Text(entry.getDay)
+                                                .font(.title)
+                                                .fontWeight(.bold)
+                                                .foregroundStyle(.white)
+                                                .background {
+                                                    Rectangle()
+                                                        .fill(Color(entry.colorHighlight))
+                                                        .frame(width: 35, height: 10)
+                                                        .offset(y: 11)
+                                                }
+                                            
+                                            Text(entry.getMonth)
+                                                .foregroundStyle(.white)
+                                                .offset(y: 4)
+                                        }
+                                        
+                                        Spacer()
+                                            .frame(height: 10)
+                                        
+                                        // Title
+                                        Text(entry.title)
+                                            .font(.headline)
+                                        
+                                        Spacer()
+                                            .frame(height: 10)
+                                        
+                                        // Body
+                                        Text(entry.body)
+                                        
+                                        Rectangle()
+                                            .fill(Color("lightGray"))
+                                            .frame(maxWidth: g.size.width * 0.9, maxHeight: 0.5, alignment: .center)
+                                        
+                                        HStack {
+                                            VStack {
+                                                Text(entry.formatTime)
+                                                    .font(.subheadline)
+                                                    .fontWeight(.bold)
+                                                    .foregroundStyle(Color("lighterGray"))
+                                            }
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            
+                                            Menu {
+                                                Section {
+                                                    Button(action: {
+                                                        
+                                                    }) {
+                                                        Label("Edit", systemImage: "pencil")
+                                                    }
+                                                }
+                                                
+                                                Section {
+                                                    Button(role: .destructive, action: {
+                                                        
+                                                    }) {
+                                                        Label("Delete", systemImage: "trash")
+                                                    }
+                                                }
+                                            } label: {
+                                                Circle()
+                                                    .fill(.clear)
+                                                    .frame(width: 20, height: 20)
+                                                    .overlay {
+                                                        Image(systemName: "ellipsis")
+                                                            .foregroundStyle(Color("lighterGray"))
+                                                            .fontWeight(.bold)
+                                                    }
+                                            }
+                                            .frame(maxWidth: .infinity, alignment: .trailing)
+                                        }
+                                        .offset(y: 3)
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(.horizontal, 25)
+                                    .padding(.vertical, 15)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .background {
+                                    RoundedRectangle(cornerRadius: 15.0)
+                                        .fill(.thinMaterial)
+                                        .frame(maxWidth: g.size.width * 0.95)
+                                }
+                            }
+                            
+                            Spacer()
+                                .frame(height: 25)
+                        }
+                    }
                 }
             }
+            .scrollContentBackground(.hidden)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -25,8 +145,52 @@ struct JournalView: View {
                         .foregroundStyle(.white)
                         .fontWeight(.semibold)
                 }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        Picker("", selection: $selectedSortingOption) {
+                            ForEach(sortingOptions, id: \.self) {
+                                Text($0)
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "arrow.up.arrow.down")
+                    }
+                }
+            }
+            .toolbarBackground(Color("darkerGray").opacity(0.97), for: .navigationBar)
+            .overlay {
+                VStack {
+                    Circle()
+                        .fill(.thinMaterial)
+                        .frame(width: 60, height: 60)
+                        .overlay {
+                            Image(systemName: "plus")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .foregroundStyle(.white)
+                        }
+                        .scaleEffect(scale)
+                        .onTapGesture {
+                            scale = 0.9
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                scale = 1.0
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    showEntrySheet.toggle()
+                                }
+                            }
+                        }
+                }
+                .frame(maxHeight: .infinity, alignment: .bottom)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .padding()
+            }
+            .fullScreenCover(isPresented: $showEntrySheet) {
+                JournalEntryView()
             }
         }
+        .preferredColorScheme(.dark)
     }
 }
 

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ImageryView: View {
+struct MeditationView: View {
     var body: some View {
         NavigationStack {
             ZStack {
@@ -31,5 +31,5 @@ struct ImageryView: View {
 }
 
 #Preview {
-    ImageryView()
+    MeditationView()
 }
