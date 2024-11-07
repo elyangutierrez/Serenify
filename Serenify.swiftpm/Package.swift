@@ -36,7 +36,10 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "AppModule",
-            path: "."
+            path: "AppModule",
+            resources: [
+                .process("forestSoundEffect.mp3")
+            ]
         )
     ],
     swiftLanguageVersions: [.version("6")]
