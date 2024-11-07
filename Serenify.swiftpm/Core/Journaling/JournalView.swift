@@ -31,7 +31,7 @@ struct JournalView: View {
         if selectedSortingOption == "Sort by Date" {
             return entries.sorted(by: { $0.date > $1.date })
         } else {
-            return entries.sorted(by: { $0.title < $1.title } )
+            return entries.sorted(by: { $0.title.lowercased() < $1.title.lowercased() } )
         }
     }
     
@@ -213,8 +213,11 @@ struct JournalView: View {
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 .padding()
             }
-            .fullScreenCover(isPresented: $showEntrySheet) {
-                JournalEntryTypeView()
+//            .fullScreenCover(isPresented: $showEntrySheet) {
+//                JournalEntryTypeView(isPresented: $showEntrySheet)
+//            }
+            .sheet(isPresented: $showEntrySheet) {
+                JournalEntryTypeView(isPresented: $showEntrySheet)
             }
             .fullScreenCover(item: $entryBeingEdited) { entry in
                 EditJournalEntryView(journalEntry: entry)

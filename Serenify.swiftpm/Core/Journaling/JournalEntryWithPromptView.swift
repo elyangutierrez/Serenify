@@ -12,6 +12,9 @@ struct JournalEntryWithPromptView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var modelContext
     
+    @Binding var prompt: String
+    @Binding var isPresented: Bool
+    
     @State private var journalBody: String = ""
     @State private var addedJournal = false
     @State private var failedToAddJournal: Bool = false
@@ -32,8 +35,6 @@ struct JournalEntryWithPromptView: View {
         formatter.dateFormat = "MMM."
         return formatter.string(from: date)
     }
-    
-    var prompt: String
     
     var body: some View {
         NavigationStack {
@@ -77,13 +78,14 @@ struct JournalEntryWithPromptView: View {
                                     .fontWeight(.bold)
                                     .foregroundStyle(.white)
                                     .lineLimit(1...3)
-                                
-                                Rectangle()
-                                    .fill(Color("lightGray"))
-                                    .frame(width: g.size.width * 0.9, height: 0.5)
                             }
+                            .frame(width: g.size.width * 0.9, alignment: .leading)
                             .multilineTextAlignment(.leading)
                             .padding(.horizontal, 15)
+                            
+                            Rectangle()
+                                .fill(Color("lightGray"))
+                                .frame(width: g.size.width * 0.9, height: 0.5)
                             
                             VStack {
                                 TextField("Journal Body", text: $journalBody, prompt: Text("Write your journal entry here...").foregroundStyle(Color("lightGray")), axis: .vertical)
@@ -101,7 +103,7 @@ struct JournalEntryWithPromptView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button(action: {
-                        dismiss()
+                        isPresented = false
                     }) {
                         Circle()
                             .fill(.thinMaterial)
@@ -147,7 +149,7 @@ struct JournalEntryWithPromptView: View {
             Button("Ok", role: .cancel, action: {
                 hapticsManager.addJournalEntry()
                 resetParameters()
-                dismiss()
+                isPresented = false
             }).tint(.white)
         } message: {
             Text("Your journal entry has been added!")
@@ -176,5 +178,5 @@ struct JournalEntryWithPromptView: View {
 }
 
 #Preview {
-    JournalEntryWithPromptView(prompt: "Write down five things you can see, four you can feel, three you can hear, two you can smell, and one you can taste.")
+    JournalEntryWithPromptView(prompt: .constant("Write down five things you can see, four you can feel, three you can hear, two you can smell, and one you can taste."), isPresented: .constant(true))
 }

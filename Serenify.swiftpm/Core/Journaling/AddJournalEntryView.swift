@@ -12,6 +12,8 @@ struct AddJournalEntryView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var modelContext
     
+    @Binding var isPresented: Bool
+    
     @State private var journalTitle: String = ""
     @State private var journalBody: String = ""
     @State private var addedJournal = false
@@ -100,7 +102,7 @@ struct AddJournalEntryView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button(action: {
-                        dismiss()
+                        isPresented = false
                     }) {
                         Circle()
                             .fill(.thinMaterial)
@@ -146,7 +148,7 @@ struct AddJournalEntryView: View {
             Button("Ok", role: .cancel, action: {
                 hapticsManager.addJournalEntry()
                 resetParameters()
-                dismiss()
+                isPresented = false
             }).tint(.white)
         } message: {
             Text("Your journal entry has been added!")
@@ -176,5 +178,5 @@ struct AddJournalEntryView: View {
 }
 
 #Preview {
-    AddJournalEntryView()
+    AddJournalEntryView(isPresented: .constant(true))
 }
