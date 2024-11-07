@@ -29,7 +29,7 @@ struct ExerciseFourCapsule: View {
                                     .font(.subheadline)
                                     .fontWeight(.bold)
                                     .foregroundStyle(Color("darkGray"))
-                                    .offset(x: -4, y: 4)
+                                    .offset(x: -4, y: 4.5)
                             }
                         }
                         .frame(maxHeight: .infinity, alignment: .top)

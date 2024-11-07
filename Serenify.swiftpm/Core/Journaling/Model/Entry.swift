@@ -15,6 +15,7 @@ class Entry {
     var body: String
     var colorHighlight: String
     var date: Date
+    var isEditing: Bool
     
     init(id: UUID = UUID(), title: String, body: String, colorHighlight: String, date: Date) {
         self.id = id
@@ -22,6 +23,7 @@ class Entry {
         self.body = body
         self.colorHighlight = colorHighlight
         self.date = date
+        self.isEditing = false
     }
     
     var getDay: String {

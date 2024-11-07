@@ -13,4 +13,28 @@ class HapticsManager: ObservableObject {
     @MainActor func roundChange() {
         haptics.notify(.success)
     }
+    
+    @MainActor func addJournalEntry() {
+        haptics.notify(.success)
+    }
+    
+    @MainActor func failedToAddJournalEntry() {
+        haptics.notify(.error)
+    }
+    
+    @MainActor func deleteJournalEntry() {
+        haptics.notify(.success)
+    }
+    
+    @MainActor func cancel() {
+        haptics.play(.light)
+    }
+    
+    @MainActor func editJournalEntry() {
+        haptics.notify(.success)
+    }
+    
+    @MainActor func failedToEditJournalEntry() {
+        haptics.notify(.error)
+    }
 }

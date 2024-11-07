@@ -2,23 +2,38 @@
 //  SwiftUIView.swift
 //  Serenify
 //
-//  Created by Elyan Gutierrez on 11/4/24.
+//  Created by Elyan Gutierrez on 11/6/24.
 //
 
 import SwiftUI
 
-struct JournalEntryView: View {
+struct JournalEntryWithPromptView: View {
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var modelContext
     
-    @State private var journalTitle: String = ""
     @State private var journalBody: String = ""
     @State private var addedJournal = false
     @State private var failedToAddJournal: Bool = false
+    @State private var hapticsManager = HapticsManager()
+    @State private var selectedPrompt = ""
     
     let date = Date.now
     let colors = ["pastelBlue", "pastelGreen", "pastelGold", "pastelPink"]
+    
+    var getDay: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd"
+        return formatter.string(from: date)
+    }
+    
+    var getMonth: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM."
+        return formatter.string(from: date)
+    }
+    
+    var prompt: String
     
     var body: some View {
         NavigationStack {
@@ -28,13 +43,39 @@ struct JournalEntryView: View {
                         .ignoresSafeArea()
                     ScrollView {
                         VStack {
+                            
+                            VStack {
+                                HStack {
+                                    Text(getDay)
+                                        .font(.system(size: 50))
+                                        .fontDesign(.serif)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(.white)
+                                    
+                                    Text(getMonth)
+                                        .foregroundStyle(.white)
+                                        .offset(y: 12)
+                                }
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 30)
+                            .padding(.vertical, 15)
+                            .background {
+                                RoundedRectangle(cornerRadius: 15.0)
+                                    .fill(.thinMaterial)
+                                    .frame(width: g.size.width * 0.93)
+                            }
+                            
+                            Spacer()
+                                .frame(height: 20)
+                            
                             VStack(alignment: .leading) {
-                                TextField("Journal Title", text: $journalTitle, prompt: Text("Journal Title").foregroundStyle(Color("lighterGray")), axis: .vertical)
+                                // TODO: Make this a regular text
+                                
+                                Text(prompt)
                                     .font(.headline)
                                     .fontWeight(.bold)
-                                    .tint(Color("lighterGray"))
                                     .foregroundStyle(.white)
-                                    .frame(width: g.size.width * 0.9)
                                     .lineLimit(1...3)
                                 
                                 Rectangle()
@@ -84,7 +125,7 @@ struct JournalEntryView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
                         let randomInt = Int.random(in: 0..<4)
-                        let journalEntry = Entry(title: journalTitle, body: journalBody, colorHighlight: colors[randomInt], date: date)
+                        let journalEntry = Entry(title: prompt, body: journalBody, colorHighlight: colors[randomInt], date: date)
                         addEntryToJournals(journalEntry)
                     }) {
                         Circle()
@@ -104,6 +145,7 @@ struct JournalEntryView: View {
         }
         .alert("Added Journal", isPresented: $addedJournal) {
             Button("Ok", role: .cancel, action: {
+                hapticsManager.addJournalEntry()
                 resetParameters()
                 dismiss()
             }).tint(.white)
@@ -111,7 +153,9 @@ struct JournalEntryView: View {
             Text("Your journal entry has been added!")
         }
         .alert("Failed To Add Journal", isPresented: $failedToAddJournal) {
-            Button("Ok", role: .cancel) { }.tint(.white)
+            Button("Ok", role: .cancel, action: {
+                hapticsManager.failedToAddJournalEntry()
+            }).tint(.white)
         } message: {
             Text("Your journal entry couldn't be added. Check that you've filled in both the title and body.")
         }
@@ -127,11 +171,10 @@ struct JournalEntryView: View {
     }
     
     func resetParameters() {
-        journalTitle = ""
         journalBody = ""
     }
 }
 
 #Preview {
-    JournalEntryView()
+    JournalEntryWithPromptView(prompt: "Write down five things you can see, four you can feel, three you can hear, two you can smell, and one you can taste.")
 }

@@ -12,11 +12,18 @@ struct JournalView: View {
     
     @Query var entries: [Entry]
     
+    @Environment(\.modelContext) var modelContext
+    
     @ObservedObject private var hapticsManager = HapticsManager()
     
     @State private var showEntrySheet = false
     @State private var scale: CGFloat = 1.0
     @State private var selectedSortingOption = "Sort by Date"
+    @State private var showDeletionAlert = false
+    @State private var selectedEntry: Entry?
+    @State private var failedToDeleteEntry = false
+    @State private var journalEntryDeleted = false
+    @State private var entryBeingEdited: Entry?
     
     let sortingOptions = ["Sort by Date", "Sort by Title"].sorted()
     
@@ -64,7 +71,7 @@ struct JournalView: View {
                                         }
                                         
                                         Spacer()
-                                            .frame(height: 10)
+                                            .frame(height: 20)
                                         
                                         // Title
                                         Text(entry.title)
@@ -92,7 +99,11 @@ struct JournalView: View {
                                             Menu {
                                                 Section {
                                                     Button(action: {
-                                                        
+                                                        entry.isEditing = true
+//                                                        let index = entries.firstIndex(of: entry)
+//                                                        guard let index else { return }
+//                                                        print("\(entries[index].title) is being edited! + \(entries[index].isEditing)")
+                                                        entryBeingEdited = entry
                                                     }) {
                                                         Label("Edit", systemImage: "pencil")
                                                     }
@@ -100,7 +111,8 @@ struct JournalView: View {
                                                 
                                                 Section {
                                                     Button(role: .destructive, action: {
-                                                        
+                                                        selectedEntry = entry
+                                                        showDeletionAlert.toggle()
                                                     }) {
                                                         Label("Delete", systemImage: "trash")
                                                     }
@@ -108,7 +120,7 @@ struct JournalView: View {
                                             } label: {
                                                 Circle()
                                                     .fill(.clear)
-                                                    .frame(width: 20, height: 20)
+                                                    .frame(width: 30, height: 30)
                                                     .overlay {
                                                         Image(systemName: "ellipsis")
                                                             .foregroundStyle(Color("lighterGray"))
@@ -134,6 +146,9 @@ struct JournalView: View {
                             Spacer()
                                 .frame(height: 25)
                         }
+                        
+                        Spacer()
+                            .frame(height: 60)
                     }
                 }
             }
@@ -146,20 +161,32 @@ struct JournalView: View {
                         .fontWeight(.semibold)
                 }
                 
-                ToolbarItem(placement: .topBarTrailing) {
-                    Menu {
-                        Picker("", selection: $selectedSortingOption) {
-                            ForEach(sortingOptions, id: \.self) {
-                                Text($0)
+                if !entries.isEmpty {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Menu {
+                            Picker("", selection: $selectedSortingOption) {
+                                ForEach(sortingOptions, id: \.self) {
+                                    Text($0)
+                                }
                             }
+                        } label: {
+                            Image(systemName: "arrow.up.arrow.down")
                         }
-                    } label: {
-                        Image(systemName: "arrow.up.arrow.down")
                     }
                 }
             }
             .toolbarBackground(Color("darkerGray").opacity(0.97), for: .navigationBar)
             .overlay {
+                
+                if entries.isEmpty {
+                    VStack {
+                        ContentUnavailableView("No Journal Entries",
+                                               systemImage: "square.and.pencil",
+                                               description: Text("Tap the '+' to add an entry.")
+                        )
+                    }
+                }
+                
                 VStack {
                     Circle()
                         .fill(.thinMaterial)
@@ -187,10 +214,56 @@ struct JournalView: View {
                 .padding()
             }
             .fullScreenCover(isPresented: $showEntrySheet) {
-                JournalEntryView()
+                JournalEntryTypeView()
             }
+            .fullScreenCover(item: $entryBeingEdited) { entry in
+                EditJournalEntryView(journalEntry: entry)
+            }
+//
         }
         .preferredColorScheme(.dark)
+        .alert("Delete Journal Entry", isPresented: $showDeletionAlert) {
+            Button("Yes", role: .destructive, action: {
+                guard let selectedEntry else { return }
+                let result = deleteJournalEntry(selectedEntry)
+                
+                if result {
+                    journalEntryDeleted.toggle()
+                } else {
+                    failedToDeleteEntry.toggle()
+                }
+            })
+            
+            Button("Cancel", role: .cancel, action: {
+                hapticsManager.cancel()
+            })
+        } message: {
+            Text("Are you sure you want to delete this journal entry? Once deleted, there is no going back.")
+        }
+        .alert("Journal Entry Deleted", isPresented: $journalEntryDeleted) {
+            Button("Ok", role: .cancel, action: {
+                journalEntryDeleted = false
+                hapticsManager.deleteJournalEntry()
+            })
+        } message: {
+            Text("This journal entry has been successfully deleted.")
+        }
+        .alert("Failed To Delete Entry", isPresented: $failedToDeleteEntry) {
+            Button("Ok", role: .destructive, action: {
+                failedToDeleteEntry = false
+            })
+        } message: {
+            Text("Your journal entry failed to delete. Please try again.")
+        }
+    }
+    
+    func deleteJournalEntry(_ entry: Entry) -> Bool {
+        let index = entries.firstIndex(of: entry)
+        
+        guard index != nil else { return false }
+        
+        modelContext.delete(entry)
+        return true
     }
 }
 
