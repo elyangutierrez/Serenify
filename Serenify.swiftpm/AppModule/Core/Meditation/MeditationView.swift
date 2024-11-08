@@ -10,56 +10,180 @@ import SwiftUI
 struct MeditationView: View {
     
     @State private var soundPlayer = SoundPlayer()
+    @State private var exerciseOnePresented = false
+    @State private var exerciseTwoPresented = false
+    @State private var exerciseThreePresented = false
+    @State private var exerciseFourPresented = false
+    @State private var number = 0
     
     var body: some View {
         NavigationStack {
-            ZStack {
-                Color.black
-                    .ignoresSafeArea()
-                VStack {
-                    Button(action: {
-                        soundPlayer.getSound(name: "forestSoundEffect")
-                        soundPlayer.playerHandler()
-                    }) {
-                        RoundedRectangle(cornerRadius: 15.0)
-                            .fill(.green)
-                            .frame(width: 200, height: 100)
-                            .overlay {
-                                Text("Forest")
+            GeometryReader { g in
+                ZStack {
+                    Color.black
+                        .ignoresSafeArea()
+                    ScrollView(showsIndicators: false) {
+                        Spacer()
+                            .frame(height: 25)
+                        VStack {
+                            Button(action: {
+                                soundPlayer.getSound(name: "forestSoundEffect")
+                                exerciseOnePresented.toggle()
+                            }) {
+                                RoundedRectangle(cornerRadius: 15.0)
+                                    .fill(Color("darkerPastelGreen"))
+                                    .frame(width: g.size.width * 0.9, height: 175)
+                                    .overlay {
+                                        VStack {
+                                            HStack {
+                                                Text("03")
+                                                    .font(.title)
+                                                    .fontWeight(.bold)
+                                                    .foregroundStyle(.black)
+                                                Text("Mins")
+                                                    .fontWeight(.bold)
+                                                    .foregroundStyle(Color("darkGray"))
+                                                    .offset(x: -4, y: 4)
+                                            }
+                                        }
+                                        .frame(maxHeight: .infinity, alignment: .top)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.vertical, 15)
+                                        .padding(.horizontal, 15)
+                                        
+                                        VStack {
+                                            Text("Green Everglades")
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                                .foregroundStyle(.black)
+                                        }
+                                        .frame(maxHeight: .infinity, alignment: .bottom)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.vertical, 15)
+                                        .padding(.horizontal, 15)
+                                    }
                             }
-                    }
-                    
-                    Button(action: {
-                        //
-                    }) {
-                        RoundedRectangle(cornerRadius: 15.0)
-                            .fill(.blue)
-                            .frame(width: 200, height: 100)
-                            .overlay {
-                                Text("Winter")
+                        }
+                        
+                        VStack {
+                            Button(action: {
+                                exerciseTwoPresented.toggle()
+                            }) {
+                                RoundedRectangle(cornerRadius: 15.0)
+                                    .fill(Color("darkerPastelPink"))
+                                    .frame(width: g.size.width * 0.9, height: 175)
+                                    .overlay {
+                                        VStack {
+                                            HStack {
+                                                Text("03")
+                                                    .font(.title)
+                                                    .fontWeight(.bold)
+                                                    .foregroundStyle(.black)
+                                                Text("Mins")
+                                                    .fontWeight(.bold)
+                                                    .foregroundStyle(Color("darkGray"))
+                                                    .offset(x: -4, y: 4)
+                                            }
+                                            
+                                        }
+                                        .frame(maxHeight: .infinity, alignment: .top)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.vertical, 15)
+                                        .padding(.horizontal, 15)
+                                        
+                                        VStack {
+                                            Text("Green Everglades")
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                                .foregroundStyle(.black)
+                                        }
+                                        .frame(maxHeight: .infinity, alignment: .bottom)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.vertical, 15)
+                                        .padding(.horizontal, 15)
+                                    }
                             }
-                    }
-                    
-                    Button(action: {
-                        //
-                    }) {
-                        RoundedRectangle(cornerRadius: 15.0)
-                            .fill(.yellow)
-                            .frame(width: 200, height: 100)
-                            .overlay {
-                                Text("Sunset")
+                        }
+                        
+                        VStack {
+                            Button(action: {
+                                exerciseThreePresented.toggle()
+                            }) {
+                                RoundedRectangle(cornerRadius: 15.0)
+                                    .fill(Color("darkerPastelGold"))
+                                    .frame(width: g.size.width * 0.9, height: 175)
+                                    .overlay {
+                                        VStack {
+                                            HStack {
+                                                Text("03")
+                                                    .font(.title)
+                                                    .fontWeight(.bold)
+                                                    .foregroundStyle(.black)
+                                                Text("Mins")
+                                                    .fontWeight(.bold)
+                                                    .foregroundStyle(Color("darkGray"))
+                                                    .offset(x: -4, y: 4)
+                                            }
+                                           
+                                        }
+                                        .frame(maxHeight: .infinity, alignment: .top)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.vertical, 15)
+                                        .padding(.horizontal, 15)
+                                        
+                                        VStack {
+                                            Text("Green Everglades")
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                                .foregroundStyle(.black)
+                                        }
+                                        .frame(maxHeight: .infinity, alignment: .bottom)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.vertical, 15)
+                                        .padding(.horizontal, 15)
+                                    }
                             }
-                    }
-                    
-                    Button(action: {
-                        //
-                    }) {
-                        RoundedRectangle(cornerRadius: 15.0)
-                            .fill(.pink)
-                            .frame(width: 200, height: 100)
-                            .overlay {
-                                Text("Stream")
+                        }
+                        
+                        VStack {
+                            Button(action: {
+                                exerciseFourPresented.toggle()
+                            }) {
+                                RoundedRectangle(cornerRadius: 15.0)
+                                    .fill(Color("darkerPastelBlue"))
+                                    .frame(width: g.size.width * 0.9, height: 175)
+                                    .overlay {
+                                        VStack {
+                                            HStack {
+                                                Text("03")
+                                                    .font(.title)
+                                                    .fontWeight(.bold)
+                                                    .foregroundStyle(.black)
+                                                Text("Mins")
+                                                    .fontWeight(.bold)
+                                                    .foregroundStyle(Color("darkGray"))
+                                                    .offset(x: -4, y: 4)
+                                            }
+                                            
+                                        }
+                                        .frame(maxHeight: .infinity, alignment: .top)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.vertical, 15)
+                                        .padding(.horizontal, 15)
+                                        
+                                        VStack {
+                                            Text("Green Everglades")
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                                .foregroundStyle(.black)
+                                        }
+                                        .frame(maxHeight: .infinity, alignment: .bottom)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.vertical, 15)
+                                        .padding(.horizontal, 15)
+                                    }
                             }
+                        }
                     }
                 }
             }
@@ -70,6 +194,19 @@ struct MeditationView: View {
                         .foregroundStyle(.white)
                         .fontWeight(.bold)
                 }
+            }
+            .toolbarBackground(Color("darkerGray").opacity(0.97), for: .navigationBar)
+            .fullScreenCover(isPresented: $exerciseOnePresented) {
+                MeditationOneView(soundPlayer: soundPlayer)
+            }
+            .fullScreenCover(isPresented: $exerciseTwoPresented) {
+                MeditationTwoView()
+            }
+            .fullScreenCover(isPresented: $exerciseThreePresented) {
+                MeditationThreeView()
+            }
+            .fullScreenCover(isPresented: $exerciseFourPresented) {
+                MeditationFourView()
             }
         }
     }

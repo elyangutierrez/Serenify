@@ -38,7 +38,10 @@ let package = Package(
             name: "AppModule",
             path: "AppModule",
             resources: [
-                .process("forestSoundEffect.mp3")
+                .process("Resources/Sounds/forestSoundEffect.mp3"),
+                .process("Resources/Sounds/oceanWavesSoundEffect.mp3"),
+                .process("Resources/Sounds/whiteNoiseSoundEffect.mp3"),
+                .process("Resources/Sounds/riverSoundEffect.mp3")
             ]
         )
     ],
