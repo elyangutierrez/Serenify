@@ -30,20 +30,61 @@ struct MeditationView: View {
                                 soundPlayer.getSound(name: "forestSoundEffect")
                                 exerciseOnePresented.toggle()
                             }) {
-                                RoundedRectangle(cornerRadius: 15.0)
-                                    .fill(Color("darkerPastelGreen"))
+//                                RoundedRectangle(cornerRadius: 15.0)
+//                                    .fill(Color("darkerPastelGreen"))
+//                                    .frame(width: g.size.width * 0.9, height: 175)
+//                                    .overlay {
+//                                        VStack {
+//                                            HStack {
+//                                                Text("03")
+//                                                    .font(.title)
+//                                                    .fontWeight(.bold)
+//                                                    .foregroundStyle(.black)
+//                                                Text("Mins")
+//                                                    .fontWeight(.bold)
+//                                                    .foregroundStyle(Color("darkGray"))
+//                                                    .offset(x: -4, y: 4)
+//                                            }
+//                                        }
+//                                        .frame(maxHeight: .infinity, alignment: .top)
+//                                        .frame(maxWidth: .infinity, alignment: .leading)
+//                                        .padding(.vertical, 15)
+//                                        .padding(.horizontal, 15)
+//                                        
+//                                        VStack {
+//                                            Text("Green Plains")
+//                                                .font(.title2)
+//                                                .fontWeight(.bold)
+//                                                .foregroundStyle(.black)
+//                                        }
+//                                        .frame(maxHeight: .infinity, alignment: .bottom)
+//                                        .frame(maxWidth: .infinity, alignment: .leading)
+//                                        .padding(.vertical, 15)
+//                                        .padding(.horizontal, 15)
+//                                    }
+                                
+                                Image("croppedForest")
+                                    .resizable()
                                     .frame(width: g.size.width * 0.9, height: 175)
+                                    .clipShape(RoundedRectangle(cornerRadius: 15.0))
                                     .overlay {
                                         VStack {
                                             HStack {
                                                 Text("03")
                                                     .font(.title)
                                                     .fontWeight(.bold)
-                                                    .foregroundStyle(.black)
+                                                    .foregroundStyle(.white)
                                                 Text("Mins")
                                                     .fontWeight(.bold)
-                                                    .foregroundStyle(Color("darkGray"))
+                                                    .foregroundStyle(.white)
                                                     .offset(x: -4, y: 4)
+                                            }
+                                            .background {
+                                                RoundedRectangle(cornerRadius: 15.0)
+                                                    .fill(.thinMaterial)
+                                                    .padding(.horizontal, -5)
+                                                    .padding(.vertical, -5)
+                                                    .blur(radius: 35)
                                             }
                                         }
                                         .frame(maxHeight: .infinity, alignment: .top)
@@ -52,10 +93,10 @@ struct MeditationView: View {
                                         .padding(.horizontal, 15)
                                         
                                         VStack {
-                                            Text("Green Everglades")
+                                            Text("Green Plains")
                                                 .font(.title2)
                                                 .fontWeight(.bold)
-                                                .foregroundStyle(.black)
+                                                .foregroundStyle(.white)
                                         }
                                         .frame(maxHeight: .infinity, alignment: .bottom)
                                         .frame(maxWidth: .infinity, alignment: .leading)
