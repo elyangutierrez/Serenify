@@ -75,24 +75,32 @@ struct MeditationView: View {
                         
                         VStack {
                             Button(action: {
+                                soundPlayer.getSound(name: "riverSoundEffect")
                                 exerciseTwoPresented.toggle()
                             }) {
-                                RoundedRectangle(cornerRadius: 15.0)
-                                    .fill(Color("darkerPastelPink"))
+                                Image("croppedPinkRiver")
+                                    .resizable()
                                     .frame(width: g.size.width * 0.9, height: 175)
+                                    .clipShape(RoundedRectangle(cornerRadius: 15.0))
                                     .overlay {
                                         VStack {
                                             HStack {
                                                 Text("03")
                                                     .font(.title)
                                                     .fontWeight(.bold)
-                                                    .foregroundStyle(.black)
+                                                    .foregroundStyle(.white)
                                                 Text("Mins")
                                                     .fontWeight(.bold)
-                                                    .foregroundStyle(Color("darkGray"))
+                                                    .foregroundStyle(.white)
                                                     .offset(x: -4, y: 4)
                                             }
-                                            
+                                            .background {
+                                                RoundedRectangle(cornerRadius: 15.0)
+                                                    .fill(.thinMaterial)
+                                                    .padding(.horizontal, -5)
+                                                    .padding(.vertical, -5)
+                                                    .blur(radius: 35)
+                                            }
                                         }
                                         .frame(maxHeight: .infinity, alignment: .top)
                                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -100,10 +108,10 @@ struct MeditationView: View {
                                         .padding(.horizontal, 15)
                                         
                                         VStack {
-                                            Text("Green Everglades")
+                                            Text("Pink Alps")
                                                 .font(.title2)
                                                 .fontWeight(.bold)
-                                                .foregroundStyle(.black)
+                                                .foregroundStyle(.white)
                                         }
                                         .frame(maxHeight: .infinity, alignment: .bottom)
                                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -208,7 +216,7 @@ struct MeditationView: View {
                 MeditationOneView(soundPlayer: soundPlayer)
             }
             .fullScreenCover(isPresented: $exerciseTwoPresented) {
-                MeditationTwoView()
+                MeditationTwoView(soundPlayer: soundPlayer)
             }
             .fullScreenCover(isPresented: $exerciseThreePresented) {
                 MeditationThreeView()
