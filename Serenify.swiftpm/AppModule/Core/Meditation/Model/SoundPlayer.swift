@@ -23,10 +23,19 @@ class SoundPlayer {
     // Formats current time
     var formattedCurrentTime: String {
         let formatter = DateComponentsFormatter()
-        formatter.unitsStyle = .abbreviated
-        formatter.zeroFormattingBehavior = .dropAll
+        formatter.unitsStyle = .positional
         formatter.allowedUnits = [.minute, .second]
-        return formatter.string(from: currentTime)!
+        formatter.zeroFormattingBehavior = .pad
+        
+        // Format the time
+        let formattedTime = formatter.string(from: currentTime) ?? "0:00"
+        
+        // Remove the leading zero if present
+        if formattedTime.hasPrefix("0") && formattedTime.count > 4 {
+            return String(formattedTime.dropFirst())
+        }
+        
+        return formattedTime
     }
     
     // Formats the time remaining
@@ -35,10 +44,21 @@ class SoundPlayer {
         let remainingTime = duration - currentTime
         
         let formatter = DateComponentsFormatter()
-        formatter.unitsStyle = .abbreviated
-        formatter.zeroFormattingBehavior = .dropAll
+        formatter.unitsStyle = .positional
+        formatter.zeroFormattingBehavior = .pad
         formatter.allowedUnits = [.minute, .second]
-        return formatter.string(from: remainingTime)!
+        
+        // Format the time
+        let formattedTime = formatter.string(from: remainingTime)!
+        
+        // Remove the leading zero if present
+        if formattedTime.hasPrefix("0") && formattedTime.count > 4 {
+            return String(formattedTime.dropFirst())
+        }
+        
+        return formattedTime
+        
+//        return formatter.string(from: remainingTime)!
     }
     
     /* Gets the sound by finding the file in the bundle and stores a
@@ -82,13 +102,14 @@ class SoundPlayer {
         
         guard let audioPlayer else { return }
         
-        // TODO: Figure out a way to prevent going over and restarting.
-        
         if currentTime < duration {
             audioPlayer.currentTime += 10
             currentTime = audioPlayer.currentTime
         } else {
-            print("Can't go over duration.")
+            audioPlayer.stop()
+            self.isPlaying = false
+            self.changeImage = false
+            print("Repeat not allowed")
         }
     }
     
@@ -101,6 +122,7 @@ class SoundPlayer {
             audioPlayer.currentTime -= 10
             currentTime = audioPlayer.currentTime
         } else {
+            audioPlayer.stop()
             currentTime = 0
         }
     }
@@ -111,7 +133,7 @@ class SoundPlayer {
         duration = audioPlayer.duration
     }
     
-    func terminateProcesses() {
+    func terminatePlayer() {
         // Kills the audioPlayer and restores back to original state
         audioPlayer = nil
         isPlaying = false
