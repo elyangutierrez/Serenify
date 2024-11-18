@@ -36,10 +36,8 @@ struct MeditationTwoView: View {
                                     
                                     Spacer()
                                         .frame(height: 10)
-                                    Text("Feel the breeze of the vibrant")
-//                                        .font(.headline)
-                                    Text("and rich alpine air.")
-//                                        .font(.headline)
+                                    Text("Focus on the river and")
+                                    Text("envision yourself there.")
                                          
                                     
                                     Spacer()
@@ -64,6 +62,7 @@ struct MeditationTwoView: View {
                             .frame(width: g.size.width, height: g.size.height * 0.3)
                             .scaledToFit()
                             .rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
+                            .blur(radius: 45, opaque: true)
                             .mask {
                                 LinearGradient(colors: [Color.clear, Color.black.opacity(1)], startPoint: .bottom, endPoint: .top)
                             }
@@ -79,7 +78,6 @@ struct MeditationTwoView: View {
                                             VStack {
                                                 Text("\(soundPlayer.formattedCurrentTime)")
                                                     .font(.headline)
-//                                                    .fontWeight(.bold)
                                             }
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding(.horizontal, 25)
@@ -87,7 +85,6 @@ struct MeditationTwoView: View {
                                             VStack {
                                                 Text("-\(soundPlayer.formattedTimeLeft)")
                                                     .font(.headline)
-//                                                    .fontWeight(.bold)
                                             }
                                             .frame(maxWidth: .infinity, alignment: .trailing)
                                             .padding(.horizontal, 25)
@@ -176,8 +173,8 @@ struct MeditationTwoView: View {
                                     .frame(maxHeight: .infinity, alignment: .bottom)
                                     .padding(.vertical, g.size.height * 0.04)
                                 }
+                                .offset(y: -20)
                             }
-                            .padding(.vertical, g.size.height * 0.04)
                     }
                     .frame(maxHeight: .infinity, alignment: .bottom)
                 }

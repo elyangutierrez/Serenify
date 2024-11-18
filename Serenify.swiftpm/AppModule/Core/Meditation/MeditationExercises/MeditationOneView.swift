@@ -36,10 +36,8 @@ struct MeditationOneView: View {
                                     
                                     Spacer()
                                         .frame(height: 10)
-                                    Text("Explore the lush and lively")
-//                                        .font(.headline)
-                                    Text("Green Plains. 🌲")
-//                                        .font(.headline)
+                                    Text("Listen to each sound in the forest")
+                                    Text("and allow your mind to be quiet.")
                                     
                                     Spacer()
                                         .frame(height: g.size.height * 0.03)
@@ -63,8 +61,9 @@ struct MeditationOneView: View {
                             .frame(width: g.size.width, height: g.size.height * 0.3)
                             .scaledToFit()
                             .rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
+                            .blur(radius: 45, opaque: true)
                             .mask {
-                                LinearGradient(colors: [Color.black.opacity(0), Color.black.opacity(0.6)], startPoint: .bottom, endPoint: .top)
+                                LinearGradient(colors: [Color.clear, Color.black.opacity(0.8)], startPoint: .bottom, endPoint: .top)
                             }
                             .overlay {
                                 ZStack {
@@ -78,7 +77,6 @@ struct MeditationOneView: View {
                                             VStack {
                                                 Text("\(soundPlayer.formattedCurrentTime)")
                                                     .font(.headline)
-//                                                    .fontWeight(.bold)
                                             }
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding(.horizontal, 25)
@@ -86,7 +84,6 @@ struct MeditationOneView: View {
                                             VStack {
                                                 Text("-\(soundPlayer.formattedTimeLeft)")
                                                     .font(.headline)
-//                                                    .fontWeight(.bold)
                                             }
                                             .frame(maxWidth: .infinity, alignment: .trailing)
                                             .padding(.horizontal, 25)
@@ -111,16 +108,6 @@ struct MeditationOneView: View {
                                                     .foregroundStyle(.white)
                                                     .frame(width: 30, height: 35)
                                                     .offset(y: -1)
-//                                                Circle()
-//                                                    .fill(Color("darkerGray").opacity(0.70))
-//                                                    .frame(width: 50, height: 50)
-//                                                    .overlay {
-//                                                        Image(systemName: "gobackward.10")
-//                                                            .resizable()
-//                                                            .foregroundStyle(.white)
-//                                                            .frame(width: 30, height: 30)
-//                                                            .offset(y: -1)
-//                                                    }
                                             }
                                             
                                             Spacer()
@@ -178,16 +165,6 @@ struct MeditationOneView: View {
                                                     .foregroundStyle(.white)
                                                     .frame(width: 30, height: 35)
                                                     .offset(y: -1)
-//                                                Circle()
-//                                                    .fill(Color("darkerGray").opacity(0.70))
-//                                                    .frame(width: 50, height: 50)
-//                                                    .overlay {
-//                                                        Image(systemName: "goforward.10")
-//                                                            .resizable()
-//                                                            .foregroundStyle(.white)
-//                                                            .frame(width: 30, height: 30)
-//                                                            .offset(y: -1)
-//                                                    }
                                             }
                                             .disabled(soundPlayer.currentTime == 154)
                                         }
@@ -195,8 +172,8 @@ struct MeditationOneView: View {
                                     .frame(maxHeight: .infinity, alignment: .bottom)
                                     .padding(.vertical, g.size.height * 0.04)
                                 }
+                                .offset(y: -20)
                             }
-                            .padding(.vertical, g.size.height * 0.04)
                     }
                     .frame(maxHeight: .infinity, alignment: .bottom)
                 }

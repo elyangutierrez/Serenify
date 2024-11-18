@@ -28,12 +28,16 @@ struct MeditationView: View {
                         VStack {
                             Button(action: {
                                 soundPlayer.getSound(name: "forestSoundEffect")
-                                exerciseOnePresented.toggle()
+                                
+                                if soundPlayer.audioPlayer != nil {
+                                    exerciseOnePresented.toggle()
+                                }
                             }) {
                                 Image("croppedForest")
                                     .resizable()
                                     .frame(width: g.size.width * 0.9, height: 175)
                                     .clipShape(RoundedRectangle(cornerRadius: 15.0))
+                                    .aspectRatio(contentMode: .fit)
                                     .overlay {
                                         VStack {
                                             HStack {
@@ -76,7 +80,10 @@ struct MeditationView: View {
                         VStack {
                             Button(action: {
                                 soundPlayer.getSound(name: "riverSoundEffect")
-                                exerciseTwoPresented.toggle()
+                                
+                                if soundPlayer.audioPlayer != nil {
+                                    exerciseTwoPresented.toggle()
+                                }
                             }) {
                                 Image("croppedPinkRiver")
                                     .resizable()
@@ -123,8 +130,11 @@ struct MeditationView: View {
                         
                         VStack {
                             Button(action: {
-                                exerciseThreePresented.toggle()
                                 soundPlayer.getSound(name: "whiteNoiseSoundEffect")
+                                
+                                if soundPlayer.audioPlayer != nil {
+                                    exerciseThreePresented.toggle()
+                                }
                             }) {
                                 Image("croppedAutumn")
                                     .resizable()
@@ -171,8 +181,11 @@ struct MeditationView: View {
                         
                         VStack {
                             Button(action: {
-                                exerciseFourPresented.toggle()
                                 soundPlayer.getSound(name: "oceanWavesSoundEffect")
+                                
+                                if soundPlayer.audioPlayer != nil {
+                                    exerciseFourPresented.toggle()
+                                }
                             }) {
                                 Image("croppedBreezyOcean")
                                     .resizable()

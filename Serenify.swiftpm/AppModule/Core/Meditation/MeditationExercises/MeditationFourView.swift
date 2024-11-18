@@ -36,10 +36,8 @@ struct MeditationFourView: View {
                                     
                                     Spacer()
                                         .frame(height: 10)
-                                    Text("Collect your thoughts and feel")
-//                                        .font(.headline)
-                                    Text("the breeze of the ocean.")
-//                                        .font(.headline)
+                                    Text("Listen to the pushing and")
+                                    Text("pulling of the everlasting waves.")
                                          
                                     
                                     Spacer()
@@ -64,6 +62,7 @@ struct MeditationFourView: View {
                             .frame(width: g.size.width, height: g.size.height * 0.3)
                             .scaledToFit()
                             .rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
+                            .blur(radius: 45, opaque: true)
                             .mask {
                                 LinearGradient(colors: [Color.clear, Color.black.opacity(1)], startPoint: .bottom, endPoint: .top)
                             }
@@ -79,7 +78,6 @@ struct MeditationFourView: View {
                                             VStack {
                                                 Text("\(soundPlayer.formattedCurrentTime)")
                                                     .font(.headline)
-//                                                    .fontWeight(.bold)
                                             }
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding(.horizontal, 25)
@@ -87,7 +85,6 @@ struct MeditationFourView: View {
                                             VStack {
                                                 Text("-\(soundPlayer.formattedTimeLeft)")
                                                     .font(.headline)
-//                                                    .fontWeight(.bold)
                                             }
                                             .frame(maxWidth: .infinity, alignment: .trailing)
                                             .padding(.horizontal, 25)
@@ -176,8 +173,8 @@ struct MeditationFourView: View {
                                     .frame(maxHeight: .infinity, alignment: .bottom)
                                     .padding(.vertical, g.size.height * 0.04)
                                 }
+                                .offset(y: -20)
                             }
-                            .padding(.vertical, g.size.height * 0.04)
                     }
                     .frame(maxHeight: .infinity, alignment: .bottom)
                 }

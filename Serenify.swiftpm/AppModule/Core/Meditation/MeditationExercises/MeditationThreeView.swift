@@ -36,10 +36,8 @@ struct MeditationThreeView: View {
                                     
                                     Spacer()
                                         .frame(height: 10)
-                                    Text("Hear the gentle whisper of the leaves")
-//                                        .font(.headline)
-                                    Text("and feel breeze that carries them.")
-//                                        .font(.headline)
+                                    Text("Hear the sound of the wind")
+                                    Text("and rustling leaves.")
                                          
                                     
                                     Spacer()
@@ -64,8 +62,10 @@ struct MeditationThreeView: View {
                             .frame(width: g.size.width, height: g.size.height * 0.3)
                             .scaledToFit()
                             .rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
+                            .blur(radius: 45, opaque: true)
                             .mask {
                                 LinearGradient(colors: [Color.clear, Color.black.opacity(1)], startPoint: .bottom, endPoint: .top)
+                                    .blendMode(.lighten)
                             }
                             .overlay {
                                 ZStack {
@@ -79,7 +79,6 @@ struct MeditationThreeView: View {
                                             VStack {
                                                 Text("\(soundPlayer.formattedCurrentTime)")
                                                     .font(.headline)
-//                                                    .fontWeight(.bold)
                                             }
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding(.horizontal, 25)
@@ -87,7 +86,6 @@ struct MeditationThreeView: View {
                                             VStack {
                                                 Text("-\(soundPlayer.formattedTimeLeft)")
                                                     .font(.headline)
-//                                                    .fontWeight(.bold)
                                             }
                                             .frame(maxWidth: .infinity, alignment: .trailing)
                                             .padding(.horizontal, 25)
@@ -176,8 +174,8 @@ struct MeditationThreeView: View {
                                     .frame(maxHeight: .infinity, alignment: .bottom)
                                     .padding(.vertical, g.size.height * 0.04)
                                 }
+                                .offset(y: -20)
                             }
-                            .padding(.vertical, g.size.height * 0.04)
                     }
                     .frame(maxHeight: .infinity, alignment: .bottom)
                 }
