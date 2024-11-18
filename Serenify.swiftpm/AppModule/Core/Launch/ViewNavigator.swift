@@ -13,7 +13,7 @@ struct ViewNavigator: View {
             Group {
                 BreathingView()
                     .tabItem {
-                        Label("Breathing", systemImage: "figure")
+                        Label("Breathing", systemImage: "wind")
                     }
                 
                 JournalView()
@@ -24,11 +24,6 @@ struct ViewNavigator: View {
                 MeditationView()
                     .tabItem {
                         Label("Meditation", systemImage: "figure.mind.and.body")
-                    }
-                
-                SettingsView()
-                    .tabItem {
-                        Label("Settings", systemImage: "gear")
                     }
             }
             .toolbarBackground(Color("darkerGray").opacity(0.97), for: .tabBar)
