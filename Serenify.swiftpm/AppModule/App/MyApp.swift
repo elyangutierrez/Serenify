@@ -8,13 +8,10 @@ struct MyApp: App {
         UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = .white
         
         UISegmentedControl.appearance().selectedSegmentTintColor = .white
-//        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
-//        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.blue], for: .normal)
         
         UISegmentedControl.appearance().backgroundColor = UIColor(Color("lighterGray"))
         UISegmentedControl.appearance().setTitleTextAttributes(
             [
-//                .font: UIFont.systemFont(ofSize: 12)
                 .font: UIFont.boldSystemFont(ofSize: 12),
                 .foregroundColor: UIColor.black
             ], for: .normal)
@@ -25,6 +22,6 @@ struct MyApp: App {
         WindowGroup {
             ViewNavigator()
         }
-        .modelContainer(for: Entry.self)
+        .modelContainer(for: [Entry.self, Mood.self])
     }
 }

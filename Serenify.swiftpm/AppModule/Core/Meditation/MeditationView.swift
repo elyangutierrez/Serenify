@@ -22,7 +22,7 @@ struct MeditationView: View {
                 ZStack {
                     Color.black
                         .ignoresSafeArea()
-                    ScrollView(showsIndicators: false) {
+                    ScrollView {
                         Spacer()
                             .frame(height: 25)
                         VStack {

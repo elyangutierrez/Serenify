@@ -11,19 +11,14 @@ struct ViewNavigator: View {
     var body: some View {
         TabView {
             Group {
-                BreathingView()
+                HomeView()
                     .tabItem {
-                        Label("Breathing", systemImage: "wind")
+                        Label("Home", systemImage: "house")
                     }
                 
-                JournalView()
+                InsightsView()
                     .tabItem {
-                        Label("Journaling", systemImage: "book")
-                    }
-                
-                MeditationView()
-                    .tabItem {
-                        Label("Meditation", systemImage: "figure.mind.and.body")
+                        Label("Insights", systemImage: "chart.bar.xaxis")
                     }
             }
             .toolbarBackground(Color("darkerGray").opacity(0.97), for: .tabBar)
