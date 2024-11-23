@@ -9,19 +9,22 @@ import SwiftData
 import SwiftUI
 
 struct HomeView: View {
-    @Query var moods: [Mood]
+    var moods: [Mood]
+    var entries: [Entry]
     @Environment(\.modelContext) var modelContext
     @State private var scale = 1.0
     @State private var selectedMoodStep = 20.0
-    @State private var selectedMood = ""
+    @State private var selectedMood: UIImage?
     @State private var currentAffirmation = ""
     @State private var dateManager = DateManager()
+    @State private var dataManager = DataManager()
+    @State private var hapticsManager = HapticsManager()
     let positiveAffirmations = Affirmations()
     
     var body: some View {
         NavigationStack {
             GeometryReader { g in
-                ScrollView {
+                ScrollView(showsIndicators: false) {
                     
                     Spacer()
                         .frame(height: 15)
@@ -29,7 +32,7 @@ struct HomeView: View {
                     VStack {
                         // days
                         HStack {
-                            /* In order to iterate through both arrays, zip them both and wrap the
+                            /* In order to iterate through both arrays, zip them and wrap the
                                zip around an Array.*/
                             ForEach(Array(zip(dateManager.weekDayNames, dateManager.weekDayDates)), id: \.0) { name, date in
                                 VStack {
@@ -44,14 +47,23 @@ struct HomeView: View {
                                     }()
                                     
                                     Circle()
-                                        .stroke(dateManager.currentDay == dateString ? Color("pastelBlue") : .clear, lineWidth: 2)
+                                        .stroke(dateManager.currentDay == dateString ? Color("lighterGray") : .clear, lineWidth: 2)
                                         .fill(.regularMaterial)
                                         .frame(width: 35, height: 35)
                                         .overlay {
-                                            if let mood = moods.first(where: { Calendar.current.isDate($0.date, inSameDayAs: date) } ) {
-                                                Text(mood.emoji)
-                                                    .font(.title)
+                                            if let mood = moods.first(where: { Calendar.current.isDate($0.date, inSameDayAs: date) }), let uiImage = mood.uiImage
+                                                {
+                                                
+                                                let image = Image(uiImage: uiImage)
+                                                
+                                                image
+                                                    .resizable()
+                                                    .frame(width: 25, height: 25)
+                                                    .clipShape(Circle())
                                             }
+                                        }
+                                        .background {
+                                            Color.clear
                                         }
                                 }
                                 
@@ -82,85 +94,94 @@ struct HomeView: View {
                             .frame(width: g.size.width * 0.9, height: 170)
                             .overlay {
                                 VStack {
-                                    
                                     VStack {
                                         Text("How are you feeling today?")
                                             .font(.headline)
                                     }
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.horizontal, 15)
-                                    .padding(.vertical, 15)
                                     
-                                    // Main emojis 😃,🙂,😐,☹️,😭
+                                    Spacer()
+                                        .frame(height: 25)
+                                    
                                     VStack {
                                         HStack {
-                                            Text("😃")
-                                                .font(.title)
+                                            Image("amazingFace")
+                                                .resizable()
+                                                .frame(width: 30, height: 30)
                                                 .scaleEffect(selectedMoodStep == 20.0 ? 1.3 : 1.0)
                                                 .onTapGesture {
-                                                    withAnimation(.easeInOut(duration: 0.15)) {
-                                                        selectedMoodStep = 20.0
-                                                        selectedMood = "😃"
-                                                    }
+                                                    selectedMoodStep = 20.0
+                                                    selectedMood = UIImage(named: "amazingFace")
+                                                    hapticsManager.tappedMoodEmoji()
                                                 }
                                             Spacer()
                                                 .frame(width: 30)
                                             
-                                            Text("🙂")
-                                                .font(.title)
+                                            Image("goodFace")
+                                                .resizable()
+                                                .frame(width: 30, height: 30)
                                                 .scaleEffect(selectedMoodStep == 40.0 ? 1.3 : 1.0)
                                                 .onTapGesture {
-                                                    withAnimation(.easeInOut(duration: 0.15)) {
-                                                        selectedMoodStep = 40.0
-                                                        selectedMood = "🙂"
-                                                    }
+                                                    selectedMoodStep = 40.0
+                                                    selectedMood = UIImage(named: "goodFace")
+                                                    hapticsManager.tappedMoodEmoji()
                                                 }
                                             
                                             Spacer()
                                                 .frame(width: 30)
                                             
-                                            Text("😐")
-                                                .font(.title)
+                                            Image("neutralFace")
+                                                .resizable()
+                                                .frame(width: 30, height: 30)
                                                 .scaleEffect(selectedMoodStep == 60.0 ? 1.3 : 1.0)
                                                 .onTapGesture {
-                                                    withAnimation(.easeInOut(duration: 0.15)) {
-                                                        selectedMoodStep = 60.0
-                                                        selectedMood = "😐"
-                                                    }
+                                                    selectedMoodStep = 60.0
+                                                    selectedMood = UIImage(named: "neutralFace")
+                                                    hapticsManager.tappedMoodEmoji()
                                                 }
                                             
                                             Spacer()
                                                 .frame(width: 30)
                                             
-                                            Text("☹️")
-                                                .font(.title)
+                                            Image("sadFace")
+                                                .resizable()
+                                                .frame(width: 30, height: 30)
                                                 .scaleEffect(selectedMoodStep == 80.0 ? 1.3 : 1.0)
                                                 .onTapGesture {
-                                                    withAnimation(.easeInOut(duration: 0.15)) {
-                                                        selectedMoodStep = 80.0
-                                                        selectedMood = "☹️"
-                                                    }
+                                                    selectedMoodStep = 80.0
+                                                    selectedMood = UIImage(named: "sadFace")
+                                                    hapticsManager.tappedMoodEmoji()
                                                 }
                                             
                                             Spacer()
                                                 .frame(width: 30)
                                             
-                                            Text("😭")
-                                                .font(.title)
+                                            Image("depressedFace")
+                                                .resizable()
+                                                .frame(width: 30, height: 30)
                                                 .scaleEffect(selectedMoodStep == 100.0 ? 1.3 : 1.0)
                                                 .onTapGesture {
-                                                    withAnimation(.easeInOut(duration: 0.15)) {
-                                                        selectedMoodStep = 100.0
-                                                        selectedMood = "😭"
-                                                    }
+                                                    selectedMoodStep = 100.0
+                                                    selectedMood = UIImage(named: "depressedFace")
+                                                    hapticsManager.tappedMoodEmoji()
                                                 }
                                         }
                                     }
-                                    .offset(y: -10)
+                                    
+                                    Spacer()
+                                        .frame(height: 25)
                                     
                                     Button(action: {
-                                        let mood = Mood(emoji: selectedMood, date: .now)
+                                        // TODO: Convert the image to data
+                                        guard let selectedMood else { return }
+                                        print("Got the selectedMood!")
+                                        let data = dataManager.convertImageToData(image: selectedMood)
+                                        guard let data else { return }
+                                        print("Got the data: \(data)")
+                                        let mood = Mood(emoji: data, date: .now)
                                         addMood(mood: mood)
+                                        hapticsManager.submittedMood()
                                     }) {
                                         RoundedRectangle(cornerRadius: 10.0)
                                             .fill(.ultraThinMaterial)
@@ -172,10 +193,8 @@ struct HomeView: View {
                                                         .fontWeight(.bold)
                                                 }
                                             }
-                                            .offset(y: -5)
                                     }
                                 }
-//                                .frame(maxHeight: .infinity, alignment: .top)
                             }
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -183,7 +202,6 @@ struct HomeView: View {
                     Spacer()
                         .frame(height: 25)
                     
-                    // Place exercises here that are easy to use and do well
                     VStack {
                         Text("Positive Affirmations")
                             .font(.title3)
@@ -194,7 +212,7 @@ struct HomeView: View {
                     
                     VStack {
                         RoundedRectangle(cornerRadius: 15.0)
-                            .fill(LinearGradient(colors: [Color("pastelBlue"), Color("darkerPastelBlue")], startPoint: .top, endPoint: .bottom))
+                            .fill(.regularMaterial)
                             .frame(width: g.size.width * 0.9, height: 125)
                             .overlay {
                                 VStack {
@@ -210,7 +228,7 @@ struct HomeView: View {
                                     Text(currentAffirmation)
                                         .font(.title3)
                                         .fontDesign(.serif)
-                                        .foregroundStyle(.black)
+                                        .foregroundStyle(.white)
                                         .padding(.horizontal)
                                 }
                             }
@@ -260,7 +278,7 @@ struct HomeView: View {
                         }
                         .buttonStyle(PlainButtonStyle())
                         
-                        NavigationLink(destination: JournalView()) {
+                        NavigationLink(destination: JournalView(entries: entries)) {
                             RoundedRectangle(cornerRadius: 15.0)
                                 .fill(LinearGradient(colors: [Color("pastelPink"), Color("darkerPastelPink")], startPoint: .top, endPoint: .bottom))
                                 .frame(width: g.size.width * 0.9, height: 80)
@@ -337,8 +355,6 @@ struct HomeView: View {
         dateManager.getWeekDayNames()
         dateManager.getWeekDayDates()
         dateManager.getCurrentDay()
-        dateManager.getCurrentMonth()
-//        dateManager.setSelectedDay()
     }
     
     func getAffirmation() {
@@ -350,10 +366,26 @@ struct HomeView: View {
     }
     
     func addMood(mood: Mood) {
-        modelContext.insert(mood)
+        
+        /* If there is already an entry for the current date and a user wants
+           to change that entry, then just save it. Else, insert it into the model
+           context as a new entry. */
+        let calender = Calendar.current
+        if let existingItem = moods.first(where: { calender.isDate($0.date, inSameDayAs: mood.date)}) {
+            existingItem.emoji = mood.emoji
+            DispatchQueue.main.async {
+                do {
+                    try modelContext.save()
+                } catch {
+                    print("Error saving: \(error.localizedDescription)")
+                }
+            }
+        } else {
+            modelContext.insert(mood)
+        }
     }
 }
 
 #Preview {
-    HomeView()
+    HomeView(moods: [Mood](), entries: [Entry]())
 }

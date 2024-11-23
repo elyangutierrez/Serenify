@@ -74,16 +74,6 @@ class DateManager {
         }
         
         weekDayDates = currentWeek
-        
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "d"
-        
-//        weekDayNumbers = []
-//        
-//        for date in currentWeek {
-//            let item = formatter.string(from: date)
-//            weekDayNumbers.append(item)
-//        }
     }
     
     func getCurrentDay() {
@@ -93,16 +83,4 @@ class DateManager {
         let item = formatter.string(from: today)
         currentDay = item
     }
-    
-//    func setSelectedDay() {
-//        let current = Int(currentDay)
-//        
-//        for day in weekDayNumbers {
-//            let intDay = Int(day)
-//            
-//            if intDay == current {
-//                selectedDay = day
-//            }
-//        }
-//    }
 }

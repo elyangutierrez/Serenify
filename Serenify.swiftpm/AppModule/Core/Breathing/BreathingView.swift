@@ -15,7 +15,7 @@ struct BreathingView: View {
                 ZStack {
                     Color.black
                         .ignoresSafeArea()
-                    ScrollView {
+                    ScrollView(showsIndicators: false) {
                         Spacer()
                             .frame(height: 20)
                         

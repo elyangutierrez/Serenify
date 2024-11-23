@@ -22,7 +22,7 @@ struct ExerciseFourView: View {
     @State private var currentRound = 0
     @State private var currentCount = 6
     @State private var showInfoSheet = false
-    @ObservedObject private var hapticsManager = HapticsManager()
+    @State private var hapticsManager = HapticsManager()
     
     let breathingOptions = ["Start", "Inhale", "Exhale", "End"]
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect() // Creates a timer that updates user interface per second

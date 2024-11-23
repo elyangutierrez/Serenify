@@ -10,11 +10,11 @@ import SwiftUI
 
 struct JournalView: View {
     
-    @Query var entries: [Entry]
+    var entries: [Entry]
     
     @Environment(\.modelContext) var modelContext
     
-    @ObservedObject private var hapticsManager = HapticsManager()
+    @State private var hapticsManager = HapticsManager()
     
     @State private var showEntrySheet = false
     @State private var scale: CGFloat = 1.0
@@ -42,7 +42,7 @@ struct JournalView: View {
                     Color.black
                         .ignoresSafeArea()
                     
-                    ScrollView {
+                    ScrollView(showsIndicators: false) {
                         
                         Spacer()
                             .frame(height: 25)
@@ -62,7 +62,7 @@ struct JournalView: View {
                                                     Rectangle()
                                                         .fill(Color(entry.colorHighlight))
                                                         .frame(width: 35, height: 10)
-                                                        .offset(y: 11)
+                                                        .offset(y: 14)
                                                 }
                                             
                                             Text(entry.getMonth)
@@ -271,5 +271,5 @@ struct JournalView: View {
 }
 
 #Preview {
-    JournalView()
+    JournalView(entries: [Entry]())
 }

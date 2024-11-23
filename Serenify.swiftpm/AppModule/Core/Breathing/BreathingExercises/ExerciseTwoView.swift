@@ -23,7 +23,7 @@ struct ExerciseTwoView: View {
     @State private var normalizedValue = 0.0
     @State private var currentRound = 0
     @State private var showInfoSheet = false
-    @ObservedObject private var hapticsManager = HapticsManager()
+    @State private var hapticsManager = HapticsManager()
     
     let breathingOptions = ["Start", "Inhale", "Hold", "Exhale", "End"]
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect() // Creates a timer that updates user interface per second

@@ -7,8 +7,9 @@
 
 import Foundation
 
-class HapticsManager: ObservableObject {
-    @Published var haptics = Haptics()
+@Observable
+class HapticsManager {
+    var haptics = Haptics()
     
     @MainActor func roundChange() {
         haptics.notify(.success)
@@ -36,5 +37,17 @@ class HapticsManager: ObservableObject {
     
     @MainActor func failedToEditJournalEntry() {
         haptics.notify(.error)
+    }
+    
+    @MainActor func tappedMoodEmoji() {
+        haptics.play(.soft)
+    }
+    
+    @MainActor func submittedMood() {
+        haptics.play(.light)
+    }
+    
+    @MainActor func calenderMonthChanged() {
+        haptics.play(.soft)
     }
 }

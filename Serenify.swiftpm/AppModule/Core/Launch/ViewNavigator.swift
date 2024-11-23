@@ -5,18 +5,23 @@
 //  Created by Elyan Gutierrez on 10/29/24.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ViewNavigator: View {
+    
+    @Query var moods: [Mood]
+    @Query var entries: [Entry]
+    
     var body: some View {
         TabView {
             Group {
-                HomeView()
+                HomeView(moods: moods, entries: entries)
                     .tabItem {
                         Label("Home", systemImage: "house")
                     }
                 
-                InsightsView()
+                InsightsView(moods: moods, entries: entries)
                     .tabItem {
                         Label("Insights", systemImage: "chart.bar.xaxis")
                     }
