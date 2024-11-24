@@ -19,6 +19,7 @@ struct HomeView: View {
     @State private var dateManager = DateManager()
     @State private var dataManager = DataManager()
     @State private var hapticsManager = HapticsManager()
+    @State private var typeNum = 0
     let positiveAffirmations = Affirmations()
     
     var body: some View {
@@ -113,6 +114,7 @@ struct HomeView: View {
                                                 .onTapGesture {
                                                     selectedMoodStep = 20.0
                                                     selectedMood = UIImage(named: "amazingFace")
+                                                    typeNum = 1
                                                     hapticsManager.tappedMoodEmoji()
                                                 }
                                             Spacer()
@@ -125,6 +127,7 @@ struct HomeView: View {
                                                 .onTapGesture {
                                                     selectedMoodStep = 40.0
                                                     selectedMood = UIImage(named: "goodFace")
+                                                    typeNum = 2
                                                     hapticsManager.tappedMoodEmoji()
                                                 }
                                             
@@ -138,6 +141,7 @@ struct HomeView: View {
                                                 .onTapGesture {
                                                     selectedMoodStep = 60.0
                                                     selectedMood = UIImage(named: "neutralFace")
+                                                    typeNum = 3
                                                     hapticsManager.tappedMoodEmoji()
                                                 }
                                             
@@ -151,19 +155,21 @@ struct HomeView: View {
                                                 .onTapGesture {
                                                     selectedMoodStep = 80.0
                                                     selectedMood = UIImage(named: "sadFace")
+                                                    typeNum = 4
                                                     hapticsManager.tappedMoodEmoji()
                                                 }
                                             
                                             Spacer()
                                                 .frame(width: 30)
                                             
-                                            Image("depressedFace")
+                                            Image("angryFace")
                                                 .resizable()
                                                 .frame(width: 30, height: 30)
                                                 .scaleEffect(selectedMoodStep == 100.0 ? 1.3 : 1.0)
                                                 .onTapGesture {
                                                     selectedMoodStep = 100.0
-                                                    selectedMood = UIImage(named: "depressedFace")
+                                                    selectedMood = UIImage(named: "angryFace")
+                                                    typeNum = 5
                                                     hapticsManager.tappedMoodEmoji()
                                                 }
                                         }
@@ -179,7 +185,7 @@ struct HomeView: View {
                                         let data = dataManager.convertImageToData(image: selectedMood)
                                         guard let data else { return }
                                         print("Got the data: \(data)")
-                                        let mood = Mood(emoji: data, date: .now)
+                                        let mood = Mood(emoji: data, type: typeNum, date: .now)
                                         addMood(mood: mood)
                                         hapticsManager.submittedMood()
                                     }) {
@@ -373,6 +379,7 @@ struct HomeView: View {
         let calender = Calendar.current
         if let existingItem = moods.first(where: { calender.isDate($0.date, inSameDayAs: mood.date)}) {
             existingItem.emoji = mood.emoji
+            existingItem.type = mood.type
             DispatchQueue.main.async {
                 do {
                     try modelContext.save()

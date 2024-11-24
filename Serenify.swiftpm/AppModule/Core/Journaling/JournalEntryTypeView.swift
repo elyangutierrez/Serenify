@@ -30,7 +30,7 @@ struct JournalEntryTypeView: View {
     
     let colors = ["pastelGreen", "pastelBlue", "pastelGold", "pastelPink"]
     let darkerColors = ["darkerPastelGreen", "darkerPastelBlue", "darkerPastelGold", "darkerPastelPink"]
-    let promptCategories = ["Mindfulness", "Simple", "Self-Soothing", "Gratitude"]
+    let promptCategories = ["Mindfulness", "Simple", "Gratitude"].sorted()
 
     var body: some View {
         NavigationStack {
@@ -298,10 +298,6 @@ struct JournalEntryTypeView: View {
             promptOneText = prompts.simplePrompts[randomNumberOne]
             promptTwoText = prompts.simplePrompts[randomNumberTwo]
             promptThreeText = prompts.simplePrompts[randomNumberThree]
-        case "Self-Soothing":
-            promptOneText = prompts.selfSoothingPrompts[randomNumberOne]
-            promptTwoText = prompts.selfSoothingPrompts[randomNumberTwo]
-            promptThreeText = prompts.selfSoothingPrompts[randomNumberThree]
         case "Gratitude":
             promptOneText = prompts.gratitudePrompts[randomNumberOne]
             promptTwoText = prompts.gratitudePrompts[randomNumberTwo]

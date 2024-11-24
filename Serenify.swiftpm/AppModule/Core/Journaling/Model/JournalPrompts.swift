@@ -33,20 +33,7 @@ struct JournalPrompts {
         "What’s something about yourself you’re grateful for, especially on hard days?",
         "Describe one comforting ritual or routine you’re thankful to have."
     ]
-
-    let selfSoothingPrompts = [
-        "Write about a technique that helps you feel calm and why it works for you.",
-        "Describe a sensory experience you find comforting (like holding a warm drink).",
-        "List three soothing activities you enjoy when feeling stressed or anxious.",
-        "What is one thing you could do for yourself right now to feel a bit better?",
-        "Describe how it feels to take deep, intentional breaths during anxious moments.",
-        "Write about a time you comforted yourself and what helped you feel at ease.",
-        "List three physical sensations (like warmth or softness) that help you feel grounded.",
-        "Write about your favorite place to go when you need a change of scenery.",
-        "What comforting words can you tell yourself when feeling overwhelmed?",
-        "Describe a small self-care action you can do to help soothe your mind."
-    ]
-
+    
     let mindfulnessPrompts = [
         "Take a few deep breaths and describe how each breath feels.",
         "Write down five things you can see, four you can feel, three you can hear, two you can smell, and one you can taste.",

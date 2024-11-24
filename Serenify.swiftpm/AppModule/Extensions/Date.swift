@@ -145,7 +145,7 @@ extension Date {
     
     func formattedDate(date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM, YYYY"
+        formatter.dateFormat = "MMM YYYY"
         return formatter.string(from: date)
     }
     

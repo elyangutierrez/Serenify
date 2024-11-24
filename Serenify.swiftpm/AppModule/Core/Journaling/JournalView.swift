@@ -189,7 +189,7 @@ struct JournalView: View {
                 
                 VStack {
                     Circle()
-                        .fill(.thinMaterial)
+                        .fill(Color("darkGray"))
                         .frame(width: 60, height: 60)
                         .overlay {
                             Image(systemName: "plus")
