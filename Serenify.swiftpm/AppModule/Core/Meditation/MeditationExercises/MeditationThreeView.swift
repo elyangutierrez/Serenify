@@ -36,8 +36,8 @@ struct MeditationThreeView: View {
                                     
                                     Spacer()
                                         .frame(height: 10)
-                                    Text("Hear the sound of the wind")
-                                    Text("and rustling leaves.")
+                                    Text("Allow the noise to clear")
+                                    Text("your mind.")
                                          
                                     
                                     Spacer()

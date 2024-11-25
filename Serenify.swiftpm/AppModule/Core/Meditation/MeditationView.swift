@@ -41,7 +41,7 @@ struct MeditationView: View {
                                     .overlay {
                                         VStack {
                                             HStack {
-                                                Text("03")
+                                                Text("02")
                                                     .font(.title)
                                                     .fontWeight(.bold)
                                                     .foregroundStyle(.white)
@@ -143,7 +143,7 @@ struct MeditationView: View {
                                     .overlay {
                                         VStack {
                                             HStack {
-                                                Text("02")
+                                                Text("03")
                                                     .font(.title)
                                                     .fontWeight(.bold)
                                                     .foregroundStyle(.white)
