@@ -13,24 +13,30 @@ struct ViewNavigator: View {
     @Query var moods: [Mood]
     @Query var entries: [Entry]
     
+    @State private var splashScreenIsPresented: Bool = true
+    
     var body: some View {
-        TabView {
-            Group {
-                HomeView(moods: moods, entries: entries)
-                    .tabItem {
-                        Label("Home", systemImage: "house")
-                    }
-                
-                InsightsView(moods: moods, entries: entries)
-                    .tabItem {
-                        Label("Insights", systemImage: "chart.bar.xaxis")
-                    }
+        if splashScreenIsPresented {
+            SplashScreenView(isPresented: $splashScreenIsPresented)
+        } else {
+            TabView {
+                Group {
+                    HomeView(moods: moods, entries: entries)
+                        .tabItem {
+                            Label("Home", systemImage: "house")
+                        }
+                    
+                    InsightsView(moods: moods, entries: entries)
+                        .tabItem {
+                            Label("Insights", systemImage: "chart.bar.xaxis")
+                        }
+                }
+                .toolbarBackground(Color("darkerGray").opacity(0.97), for: .tabBar)
+                .toolbarBackground(.visible, for: .tabBar)
             }
-            .toolbarBackground(Color("darkerGray").opacity(0.97), for: .tabBar)
-            .toolbarBackground(.visible, for: .tabBar)
+            .tint(UIDevice.current.userInterfaceIdiom == .phone ? .white : .black)
+            .preferredColorScheme(.dark)
         }
-        .tint(UIDevice.current.userInterfaceIdiom == .phone ? .white : .black)
-        .preferredColorScheme(.dark)
     }
 }
 
