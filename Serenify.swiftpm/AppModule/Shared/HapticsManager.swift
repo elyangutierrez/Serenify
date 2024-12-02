@@ -50,4 +50,8 @@ class HapticsManager {
     @MainActor func calenderMonthChanged() {
         haptics.play(.soft)
     }
+    
+    @MainActor func pickerYearChanged() {
+        haptics.play(.soft)
+    }
 }

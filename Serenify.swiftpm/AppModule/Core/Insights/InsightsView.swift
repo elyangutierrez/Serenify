@@ -209,7 +209,9 @@ struct InsightsView: View {
                                                 }
                                                 .frame(maxHeight: .infinity, alignment: .top)
                                             } else {
-                                                ContentUnavailableView("No Record", systemImage: "list.bullet.clipboard", description: Text("Please check back when you have checked in for atleast 5 days.").font(.headline))
+                                                VStack {
+                                                    ContentUnavailableView("No Record", systemImage: "list.bullet.clipboard", description: Text("Please check back when you have checked in for atleast 5 days.").font(.headline))
+                                                }
                                             }
                                         }
                                         

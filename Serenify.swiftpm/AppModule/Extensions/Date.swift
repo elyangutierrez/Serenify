@@ -143,6 +143,18 @@ extension Date {
         return randomDate
     }
     
+    func yearOnly(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY"
+        return formatter.string(from: date)
+    }
+    
+    func monthOnly(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM"
+        return formatter.string(from: date)
+    }
+    
     func formattedDate(date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM YYYY"

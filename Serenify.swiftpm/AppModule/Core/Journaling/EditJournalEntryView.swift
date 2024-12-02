@@ -18,18 +18,18 @@ struct EditJournalEntryView: View {
     @State private var hapticsManager = HapticsManager()
     @State private var failedToDismiss = false
     
-    let date = Date.now
+//    let date = Date.now
     
     var getDay: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd"
-        return formatter.string(from: date)
+        return formatter.string(from: journalEntry.date)
     }
     
     var getMonth: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM."
-        return formatter.string(from: date)
+        return formatter.string(from: journalEntry.date)
     }
     
     var body: some View {
