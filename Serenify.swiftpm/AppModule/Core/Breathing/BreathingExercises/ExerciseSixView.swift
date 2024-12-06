@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct ExerciseSixView: View {
+    
     @Binding var isPresented: Bool
+    
+    @AppStorage("isFirstTime6") var isFirstTime = true
     
     @State private var elapsedTime = 0
     @State private var currentNumber = 0
@@ -22,6 +25,7 @@ struct ExerciseSixView: View {
     @State private var currentRound = 0
     @State private var showInfoSheet = false
     @State private var hapticsManager = HapticsManager()
+    @State private var preventInitialShake = false
     
     let breathingOptions = ["Start", "Inhale", "Hold", "Exhale", "End"]
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect() // Creates a timer that updates user interface per second
@@ -39,7 +43,9 @@ struct ExerciseSixView: View {
                             .fontWeight(.bold)
                             .contentTransition(.numericText(countsDown: false))
                             .transaction { t in
-                                t.animation = .default
+                                if preventInitialShake {
+                                    t.animation = .default
+                                }
                             }
                             .offset(y: 50)
                         
@@ -78,7 +84,9 @@ struct ExerciseSixView: View {
                                                 .foregroundStyle(.white)
                                                 .contentTransition(.numericText(countsDown: false))
                                                 .transaction { t in
-                                                    t.animation = .default
+                                                    if preventInitialShake {
+                                                        t.animation = .default
+                                                    }
                                                 }
                                         }
                                     }
@@ -144,7 +152,9 @@ struct ExerciseSixView: View {
                         Spacer()
                             .frame(height: 20)
                     }
+                    .blur(radius: isFirstTime || showInfoSheet ? 5 : 0)
                 }
+                .animation(.easeInOut(duration: 0.1), value: showInfoSheet || isFirstTime)
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -214,10 +224,41 @@ struct ExerciseSixView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
                 }
-                .presentationBackground(.regularMaterial)
                 .presentationDragIndicator(.visible)
                 .presentationDetents([.height((UIScreen.current?.bounds.size.height ?? 200) * 0.25)])
                 .presentationCornerRadius(25.0)
+            }
+            .sheet(isPresented: $isFirstTime, onDismiss: {
+                isFirstTime = false
+            }) {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        VStack {
+                            Text("Exercise Info")
+                                .font(.title)
+                                .fontWeight(.bold)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        Spacer()
+                            .frame(height: 20)
+                        
+                        VStack(alignment: .leading) {
+                            Text("Inhale through the nose for 5 seconds. Exhale through the mouth for 10 seconds. Rest for 5 seconds. Repeat for 9 times.")
+                        }
+                        .offset(y: -5)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
+                }
+                .presentationDragIndicator(.visible)
+                .presentationDetents([.height((UIScreen.current?.bounds.size.height ?? 200) * 0.25)])
+                .presentationCornerRadius(25.0)
+            }
+            .onAppear {
+                DispatchQueue.main.async {
+                    preventInitialShake = true
+                }
             }
         }
     }

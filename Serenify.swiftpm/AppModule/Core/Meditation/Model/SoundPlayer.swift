@@ -20,8 +20,10 @@ class SoundPlayer {
     var currentTime: TimeInterval = 0.0
     var soundReady = false
     
-    // Formats current time
     var formattedCurrentTime: String {
+        
+        // Formats current time
+        
         let formatter = DateComponentsFormatter()
         formatter.unitsStyle = .positional
         formatter.allowedUnits = [.minute, .second]
@@ -38,8 +40,9 @@ class SoundPlayer {
         return formattedTime
     }
     
-    // Formats the time remaining
     var formattedTimeLeft: String {
+        
+        // Formats the time remaining
         
         let remainingTime = duration - currentTime
         
@@ -61,10 +64,12 @@ class SoundPlayer {
 //        return formatter.string(from: remainingTime)!
     }
     
-    /* Gets the sound by finding the file in the bundle and stores a
-       AVAudioPlayer inside the audioPlayer with the given sound.
-       The duration and currentTime attributes are also set. */
     func getSound(name: String) {
+        
+        /* Gets the sound by finding the file in the bundle and stores a
+           AVAudioPlayer inside the audioPlayer with the given sound.
+           The duration and currentTime attributes are also set. */
+        
         print("\(name)")
         if let sound = Bundle.module.url(forResource: name, withExtension: "mp3"){
             do {
@@ -81,7 +86,9 @@ class SoundPlayer {
     }
     
     @MainActor func playerHandler() {
+        
         // Handles the play state
+        
         guard let audioPlayer else { return }
         
         DispatchQueue.main.async { [self] in
@@ -98,6 +105,7 @@ class SoundPlayer {
     }
     
     func goForwardTenSeconds() {
+        
         // Goes forward 10 seconds
         
         guard let audioPlayer else { return }
@@ -114,6 +122,7 @@ class SoundPlayer {
     }
     
     func goBackwardTenSeconds() {
+        
         // Goes backward 10 seconds
         
         guard let audioPlayer else { return }
@@ -128,13 +137,17 @@ class SoundPlayer {
     }
     
     func updateVariables() {
+        
         // With the use of a timer, update the variables each second
+        
         currentTime = audioPlayer.currentTime
         duration = audioPlayer.duration
     }
     
     func terminatePlayer() {
+        
         // Kills the audioPlayer and restores back to original state
+        
         audioPlayer = nil
         isPlaying = false
         changeImage = false

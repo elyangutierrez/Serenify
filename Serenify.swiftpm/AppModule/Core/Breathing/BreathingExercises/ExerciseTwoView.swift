@@ -11,6 +11,8 @@ struct ExerciseTwoView: View {
     
     @Binding var isPresented: Bool
     
+    @AppStorage("isFirstTime2") var isFirstTime = true
+    
     @State private var elapsedTime = 0
     @State private var currentNumber = 0
     @State private var currentPhase = 1
@@ -24,6 +26,7 @@ struct ExerciseTwoView: View {
     @State private var currentRound = 0
     @State private var showInfoSheet = false
     @State private var hapticsManager = HapticsManager()
+    @State private var preventInitialShake = false
     
     let breathingOptions = ["Start", "Inhale", "Hold", "Exhale", "End"]
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect() // Creates a timer that updates user interface per second
@@ -41,7 +44,9 @@ struct ExerciseTwoView: View {
                             .fontWeight(.bold)
                             .contentTransition(.numericText(countsDown: false))
                             .transaction { t in
-                                t.animation = .default
+                                if preventInitialShake {
+                                    t.animation = .default
+                                }
                             }
                             .offset(y: 50)
                         
@@ -80,7 +85,9 @@ struct ExerciseTwoView: View {
                                                 .foregroundStyle(.white)
                                                 .contentTransition(.numericText(countsDown: false))
                                                 .transaction { t in
-                                                    t.animation = .default
+                                                    if preventInitialShake {
+                                                        t.animation = .default
+                                                    }
                                                 }
                                         }
                                     }
@@ -141,8 +148,13 @@ struct ExerciseTwoView: View {
                                     .shadow(radius: 5, y: 5)
                             }
                         }
+                        
+                        Spacer()
+                            .frame(height: 20)
                     }
+                    .blur(radius: isFirstTime || showInfoSheet ? 5 : 0)
                 }
+                .animation(.easeInOut(duration: 0.1), value: showInfoSheet || isFirstTime)
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -212,10 +224,41 @@ struct ExerciseTwoView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
                 }
-                .presentationBackground(.regularMaterial)
                 .presentationDragIndicator(.visible)
                 .presentationDetents([.height((UIScreen.current?.bounds.size.height ?? 200) * 0.25)])
                 .presentationCornerRadius(25.0)
+            }
+            .sheet(isPresented: $isFirstTime, onDismiss: {
+                isFirstTime = false
+            }) {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        VStack {
+                            Text("Exercise Info")
+                                .font(.title)
+                                .fontWeight(.bold)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        Spacer()
+                            .frame(height: 20)
+                        
+                        VStack(alignment: .leading) {
+                            Text("Inhale through the nose for 4 seconds. Hold the breath for 4 seconds. Exhale through the mouth for 4 seconds. Pause/Hold for 4 seconds. Repeat for 3 times.")
+                        }
+                        .offset(y: -5)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
+                }
+                .presentationDragIndicator(.visible)
+                .presentationDetents([.height((UIScreen.current?.bounds.size.height ?? 200) * 0.25)])
+                .presentationCornerRadius(25.0)
+            }
+            .onAppear {
+                DispatchQueue.main.async {
+                    preventInitialShake = true
+                }
             }
         }
     }
