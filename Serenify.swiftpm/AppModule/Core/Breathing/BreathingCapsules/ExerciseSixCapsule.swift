@@ -10,6 +10,7 @@ import SwiftUI
 struct ExerciseSixCapsule: View {
     @State private var isPresented: Bool = false
     var geometryWidth: CGFloat
+    var hapticsManager = HapticsManager()
     
     var body: some View {
         NavigationStack {
@@ -52,6 +53,7 @@ struct ExerciseSixCapsule: View {
                         .padding(.vertical, 15)
                     }
                     .onTapGesture {
+                        hapticsManager.haptics.play(.light)
                         isPresented.toggle()
                     }
             }

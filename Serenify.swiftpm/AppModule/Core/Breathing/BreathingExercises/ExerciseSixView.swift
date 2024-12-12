@@ -24,11 +24,12 @@ struct ExerciseSixView: View {
     @State private var normalizedValue = 0.0
     @State private var currentRound = 0
     @State private var showInfoSheet = false
-    @State private var hapticsManager = HapticsManager()
     @State private var preventInitialShake = false
     
     let breathingOptions = ["Start", "Inhale", "Hold", "Exhale", "End"]
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect() // Creates a timer that updates user interface per second
+    
+    var hapticsManager = HapticsManager()
         
     var body: some View {
         NavigationStack {
@@ -223,6 +224,9 @@ struct ExerciseSixView: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
+                }
+                .onAppear {
+                    isPlaying = false
                 }
                 .presentationDragIndicator(.visible)
                 .presentationDetents([.height((UIScreen.current?.bounds.size.height ?? 200) * 0.25)])

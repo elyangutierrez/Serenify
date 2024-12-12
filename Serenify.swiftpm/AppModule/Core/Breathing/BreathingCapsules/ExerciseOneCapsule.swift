@@ -11,6 +11,7 @@ struct ExerciseOneCapsule: View {
     
     @State private var isPresented: Bool = false
     var geometryWidth: CGFloat
+    var hapticsManager = HapticsManager()
     
     var body: some View {
         NavigationStack {
@@ -53,6 +54,7 @@ struct ExerciseOneCapsule: View {
                         .padding(.vertical, 15)
                     }
                     .onTapGesture {
+                        hapticsManager.haptics.play(.light)
                         isPresented.toggle()
                     }
             }
