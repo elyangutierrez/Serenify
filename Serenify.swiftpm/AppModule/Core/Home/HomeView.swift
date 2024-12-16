@@ -9,9 +9,9 @@ import SwiftData
 import SwiftUI
 
 struct HomeView: View {
-    var moods: [Mood]
-    var entries: [Entry]
+    
     @Environment(\.modelContext) var modelContext
+    
     @State private var scale = 1.0
     @State private var selectedMoodStep = 20.0
     @State private var selectedMood: UIImage?
@@ -20,7 +20,19 @@ struct HomeView: View {
     @State private var dataManager = DataManager()
     @State private var hapticsManager = HapticsManager()
     @State private var typeNum = 0
+    @State private var currentDateAndTime = Date.now
+    
     let positiveAffirmations = Affirmations()
+    
+    var moods: [Mood]
+    var entries: [Entry]
+    
+    var getTime: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HHmmss"
+        
+        return dateFormatter.string(from: currentDateAndTime)
+    }
     
     var body: some View {
         NavigationStack {
@@ -247,6 +259,21 @@ struct HomeView: View {
                         .frame(height: 25)
                     
                     VStack {
+                        Text("Suggestions")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 15)
+                    
+                    VStack {
+                        returnView(time: getTime, width: g.size.width * 0.85)
+                    }
+                    
+                    Spacer()
+                        .frame(height: 25)
+                    
+                    VStack {
                         Text("Techniques")
                             .font(.title3)
                             .fontWeight(.bold)
@@ -353,6 +380,7 @@ struct HomeView: View {
             .navigationBarTitleDisplayMode(.automatic)
             .onAppear {
                 getDateMethods()
+                print(getTime)
             }
         }
     }
@@ -390,6 +418,18 @@ struct HomeView: View {
         } else {
             modelContext.insert(mood)
         }
+    }
+    
+    func returnView(time: String, width: CGFloat) -> AnyView {
+        let timeAsInt = Int(time)!
+        
+        if timeAsInt >= 060000 && timeAsInt <= 115900 {
+            return AnyView(SuggestionOneView(width: width))
+        } else if timeAsInt >= 120000 && timeAsInt <= 175900 {
+            return AnyView(SuggestionTwoView(width: width))
+        }
+        
+        return AnyView(SuggestionThreeView(width: width))
     }
 }
 

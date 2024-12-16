@@ -53,7 +53,7 @@ struct ExerciseSixCapsule: View {
                         .padding(.vertical, 15)
                     }
                     .onTapGesture {
-                        hapticsManager.haptics.play(.light)
+//                        hapticsManager.haptics.play(.light)
                         isPresented.toggle()
                     }
             }

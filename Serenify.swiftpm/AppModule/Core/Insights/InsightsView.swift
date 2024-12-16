@@ -49,7 +49,7 @@ struct InsightsView: View {
             (name: "Amazing", count: amazingCount, color: Color(hex: 0x71EC96)),
             (name: "Good", count: goodCount, color: Color(hex: 0xF4D692)),
             (name: "Neutral", count: neutralCount, color: Color(hex: 0xD9D9D9)),
-            (name: "Sad", count: sadCount, color: Color(hex: 0xF7B0EF)),
+            (name: "Sad", count: sadCount, color: Color(hex: 0xA8AFF5)),
             (name: "Angry", count: angryCount, color: Color(hex: 0xFF9A9A))
         ]
     }
