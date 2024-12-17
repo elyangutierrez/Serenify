@@ -149,14 +149,14 @@ struct AddJournalEntryView: View {
                 hapticsManager.addJournalEntry()
                 resetParameters()
                 isPresented = false
-            })/*.tint(.white)*/
+            })
         } message: {
             Text("Your journal entry has been added!")
         }
         .alert("Failed To Add Journal", isPresented: $failedToAddJournal) {
             Button("Ok", role: .cancel, action: {
                 hapticsManager.failedToAddJournalEntry()
-            })/*.tint(.white)*/
+            })
         } message: {
             Text("Your journal entry couldn't be added. Check that you've filled in both the title and body.")
         }

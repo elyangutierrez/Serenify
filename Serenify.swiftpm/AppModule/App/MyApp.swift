@@ -5,7 +5,7 @@ import SwiftData
 struct MyApp: App {
     
     init() {
-        UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = UIColor.white
+        UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = .white
         
         UISegmentedControl.appearance().selectedSegmentTintColor = .white
         

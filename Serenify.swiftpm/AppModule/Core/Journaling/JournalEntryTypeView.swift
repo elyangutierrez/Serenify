@@ -284,24 +284,31 @@ struct JournalEntryTypeView: View {
         /* Function that sets prompts based on the selected
            picker item. */
         
-        let randomNumberOne = Int.random(in: 0..<10)
-        let randomNumberTwo = Int.random(in: 0..<10)
-        let randomNumberThree = Int.random(in: 0..<10)
-       
+        var uniqueNumberSet = Set<Int>()
+        
+        // Will run until each number is different from eachother
+        while uniqueNumberSet.count < 3 {
+            uniqueNumberSet.insert(Int.random(in: 0..<10))
+        }
+        
+        var numbers = Array(uniqueNumberSet)
+        let r1 = numbers[0]
+        let r2 = numbers[1]
+        let r3 = numbers[2]
         
         switch selectedPromptCategory {
         case "Mindfulness":
-            promptOneText = prompts.mindfulnessPrompts[randomNumberOne]
-            promptTwoText = prompts.mindfulnessPrompts[randomNumberTwo]
-            promptThreeText = prompts.mindfulnessPrompts[randomNumberThree]
+            promptOneText = prompts.mindfulnessPrompts[r1]
+            promptTwoText = prompts.mindfulnessPrompts[r2]
+            promptThreeText = prompts.mindfulnessPrompts[r3]
         case "Simple":
-            promptOneText = prompts.simplePrompts[randomNumberOne]
-            promptTwoText = prompts.simplePrompts[randomNumberTwo]
-            promptThreeText = prompts.simplePrompts[randomNumberThree]
+            promptOneText = prompts.simplePrompts[r1]
+            promptTwoText = prompts.simplePrompts[r2]
+            promptThreeText = prompts.simplePrompts[r3]
         case "Gratitude":
-            promptOneText = prompts.gratitudePrompts[randomNumberOne]
-            promptTwoText = prompts.gratitudePrompts[randomNumberTwo]
-            promptThreeText = prompts.gratitudePrompts[randomNumberThree]
+            promptOneText = prompts.gratitudePrompts[r1]
+            promptTwoText = prompts.gratitudePrompts[r2]
+            promptThreeText = prompts.gratitudePrompts[r3]
         default:
             print("Something went wrong!")
         }

@@ -79,7 +79,7 @@ class Mood {
         return placeholder
     }
     
-    func getDepressedCount(_ moods: [Mood]) -> Int {
+    func getAngryCount(_ moods: [Mood]) -> Int {
         var placeholder = 0
         for mood in moods {
             if mood.type == 5 {

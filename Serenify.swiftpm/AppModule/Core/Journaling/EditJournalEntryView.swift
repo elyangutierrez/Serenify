@@ -148,14 +148,14 @@ struct EditJournalEntryView: View {
             Button("Ok", role: .cancel, action: {
                 hapticsManager.editJournalEntry()
                 dismiss()
-            }).tint(.white)
+            })
         } message: {
             Text("Your journal entry has been successfully edited!")
         }
         .alert("Failed To Add Journal", isPresented: $failedToEditJournal) {
             Button("Ok", role: .cancel, action: {
                 hapticsManager.failedToEditJournalEntry()
-            }).tint(.white)
+            })
         } message: {
             Text("Your journal entry couldn't be edited. Check that you've filled in both the title and body.")
         }
