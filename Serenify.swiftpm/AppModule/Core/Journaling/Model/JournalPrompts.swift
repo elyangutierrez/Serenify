@@ -8,6 +8,7 @@
 import Foundation
 
 struct JournalPrompts {
+    
     let simplePrompts = [
         "Describe a place where you feel safe and what makes it comforting.",
         "What’s one small thing you accomplished recently that made you feel proud?",

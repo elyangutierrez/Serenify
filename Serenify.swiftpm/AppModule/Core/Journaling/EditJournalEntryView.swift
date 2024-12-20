@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct EditJournalEntryView: View {
+    
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var modelContext
     

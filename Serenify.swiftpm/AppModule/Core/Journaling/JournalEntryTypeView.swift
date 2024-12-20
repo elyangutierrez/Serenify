@@ -291,7 +291,7 @@ struct JournalEntryTypeView: View {
             uniqueNumberSet.insert(Int.random(in: 0..<10))
         }
         
-        var numbers = Array(uniqueNumberSet)
+        let numbers = Array(uniqueNumberSet)
         let r1 = numbers[0]
         let r2 = numbers[1]
         let r3 = numbers[2]

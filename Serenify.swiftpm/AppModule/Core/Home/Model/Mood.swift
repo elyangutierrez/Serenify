@@ -11,6 +11,7 @@ import UIKit
 
 @Model
 class Mood {
+    
     var id = UUID()
     var emoji: Data?
     var type: Int

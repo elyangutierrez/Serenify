@@ -13,9 +13,9 @@ struct MeditationOneView: View {
     
     @State private var currentCount = 0
     
-    var soundPlayer: SoundPlayer
-    
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
+    var soundPlayer: SoundPlayer
     
     var body: some View {
         NavigationStack {

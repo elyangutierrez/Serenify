@@ -9,7 +9,9 @@ import Charts
 import SwiftUI
 
 struct InsightsView: View {
+    
     @Environment(\.modelContext) var modelContext
+    
     @State private var moodDate = Date.now
     @State private var journalDate = Date.now
     @State private var currentDate = Date.now

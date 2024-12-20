@@ -10,8 +10,6 @@ import UIKit
 final class Haptics: Sendable {
     static let haptics = Haptics()
     
-    init() { }
-    
     @MainActor func play(_ feedbackStyle: UIImpactFeedbackGenerator.FeedbackStyle) {
         UIImpactFeedbackGenerator(style: feedbackStyle).impactOccurred()
     }

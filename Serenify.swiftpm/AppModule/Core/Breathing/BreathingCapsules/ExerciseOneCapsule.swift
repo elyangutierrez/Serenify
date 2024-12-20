@@ -10,6 +10,7 @@ import SwiftUI
 struct ExerciseOneCapsule: View {
     
     @State private var isPresented: Bool = false
+    
     var geometryWidth: CGFloat
     var hapticsManager = HapticsManager()
     

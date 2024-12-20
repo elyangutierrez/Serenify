@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct ExerciseFiveCapsule: View {
+    
     @State private var isPresented: Bool = false
+    
     var geometryWidth: CGFloat
     var hapticsManager = HapticsManager()
     

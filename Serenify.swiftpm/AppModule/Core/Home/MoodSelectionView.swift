@@ -10,6 +10,7 @@ import SwiftUI
 struct MoodSelectionView: View {
     
     @Environment(\.dismiss) var dismiss
+    
     @State private var scale = 0.0
     @State private var currentMood = 20.0
     

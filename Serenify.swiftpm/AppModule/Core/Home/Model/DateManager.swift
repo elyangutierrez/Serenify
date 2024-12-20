@@ -9,6 +9,7 @@ import Foundation
 
 @Observable
 class DateManager {
+    
     var currentMonth = ""
     var weekDayNames: [String] = []
     var weekDayDates: [Date] = []

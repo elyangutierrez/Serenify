@@ -9,6 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct JournalView: View {
+    
     @Environment(\.modelContext) var modelContext
     
     @AppStorage("notifications") var notificationsIsOn = false
@@ -17,7 +18,7 @@ struct JournalView: View {
     @State private var hapticsManager = HapticsManager()
     @State private var showEntrySheet = false
     @State private var scale: CGFloat = 1.0
-    @State private var selectedSortingOption = "Sort by Date"
+    @State private var selectedSortingOption = "Filter by Date"
     @State private var showDeletionAlert = false
     @State private var selectedEntry: Entry?
     @State private var failedToDeleteEntry = false
@@ -31,7 +32,7 @@ struct JournalView: View {
     @State private var currentMonthAndYear = Date.now
     @State private var datePickerIsPresented: Bool = false
     
-    let sortingOptions = ["Sort by Date", "Sort by Title"].sorted()
+    let sortingOptions = ["Filter by Date", "Filter by Title"].sorted()
     let months = Calendar.current.shortMonthSymbols
     
     let columns = [GridItem(.adaptive(minimum: 80))]
@@ -54,7 +55,7 @@ struct JournalView: View {
     }
     
     var sortedResults: [Entry] {
-        if selectedSortingOption == "Sort by Date" {
+        if selectedSortingOption == "Filter by Date" {
             return currentMonthResults.sorted(by: { $0.date > $1.date })
         } else {
             return currentMonthResults.sorted(by: { $0.title.lowercased() < $1.title.lowercased() } )
@@ -248,7 +249,7 @@ struct JournalView: View {
                                 }
                             }
                         } label: {
-                            Image(systemName: "arrow.up.arrow.down")
+                            Image(systemName: "line.3.horizontal.decrease.circle.fill")
                         }
                     }
                 }
