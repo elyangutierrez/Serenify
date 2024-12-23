@@ -18,60 +18,73 @@ struct SuggestionTwoView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Breathing")
-                .font(.headline)
-            HStack {
-                Text("-")
+            VStack(alignment: .leading) {
+                Text("Breathing")
+                    .font(.headline)
                 
-                VStack {
-                    Text("\(breathing)")
-//                        .background {
-//                            RoundedRectangle(cornerRadius: 10.0)
-//                                .fill(.ultraThinMaterial)
-//                                .padding(.horizontal, -5)
-//                                .padding(.vertical, -5)
-//                        }
+                Spacer()
+                    .frame(height: 5)
+                
+                HStack {
+                    VStack {
+                        Text("•")
+                    }
+                    
+                    VStack {
+                        Text("\(breathing)")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
                 }
             }
-            .padding(.horizontal, 10)
+            .padding()
+            .background {
+                RoundedRectangle(cornerRadius: 10.0)
+                    .fill(.ultraThinMaterial)
+            }
             
-            Text("Journaling")
-                .font(.headline)
-            HStack {
-                Text("-")
+            VStack(alignment: .leading) {
+                Text("Journaling")
+                    .font(.headline)
                 
-                VStack {
+                Spacer()
+                    .frame(height: 5)
+                
+                HStack {
+                    Text("•")
+                    
                     Text("\(journaling)")
-//                        .background {
-//                            RoundedRectangle(cornerRadius: 10.0)
-//                                .fill(.ultraThinMaterial)
-//                                .padding(.horizontal, -5)
-//                                .padding(.vertical, -5)
-//                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
-            .padding(.horizontal, 10)
+            .padding()
+            .background {
+                RoundedRectangle(cornerRadius: 10.0)
+                    .fill(.ultraThinMaterial)
+            }
             
-            Text("Meditation")
-                .font(.headline)
-            HStack {
-                Text("-")
+            VStack(alignment: .leading) {
+                Text("Meditation")
+                    .font(.headline)
                 
-                VStack {
+                Spacer()
+                    .frame(height: 5)
+                
+                HStack {
+                    Text("•")
+                    
                     Text("\(meditation)")
-//                        .background {
-//                            RoundedRectangle(cornerRadius: 10.0)
-//                                .fill(.ultraThinMaterial)
-//                                .padding(.horizontal, -5)
-//                                .padding(.vertical, -5)
-//                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
-            .padding(.horizontal, 10)
+            .padding()
+            .background {
+                RoundedRectangle(cornerRadius: 10.0)
+                    .fill(.ultraThinMaterial)
+            }
         }
         .frame(maxWidth: width, alignment: .leading)
         .background {
-            RoundedRectangle(cornerRadius: 10.0)
+            RoundedRectangle(cornerRadius: 15.0)
                 .fill(.regularMaterial)
                 .padding(.horizontal, -10)
                 .padding(.vertical, -10)
