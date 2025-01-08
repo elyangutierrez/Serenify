@@ -31,8 +31,9 @@ struct JournalView: View {
     @State private var notificationsCancelled: Bool = false
     @State private var currentMonthAndYear = Date.now
     @State private var datePickerIsPresented: Bool = false
+    @State private var searchText = ""
     
-    let sortingOptions = ["Filter by Date", "Filter by Title"].sorted()
+    let sortingOptions = ["Filter by Date", "Filter by Title", "Filter by Favorited"].sorted()
     let months = Calendar.current.shortMonthSymbols
     
     let columns = [GridItem(.adaptive(minimum: 80))]
@@ -57,9 +58,27 @@ struct JournalView: View {
     var sortedResults: [Entry] {
         if selectedSortingOption == "Filter by Date" {
             return currentMonthResults.sorted(by: { $0.date > $1.date })
+        } else if selectedSortingOption == "Filter by Favorited" {
+            return currentMonthResults.filter { $0.isFavorited }
         } else {
             return currentMonthResults.sorted(by: { $0.title.lowercased() < $1.title.lowercased() } )
         }
+    }
+    
+    var taggedResults: [Entry] {
+        if searchText.isEmpty {
+            return sortedResults
+        }
+        
+        var placeholder = [Entry]()
+        
+        for entry in sortedResults {
+            if entry.title.lowercased().contains(searchText.lowercased()) || entry.body.lowercased().contains(searchText.lowercased()) {
+                placeholder.append(entry)
+            }
+        }
+        
+        return placeholder
     }
     
     var body: some View {
@@ -72,39 +91,64 @@ struct JournalView: View {
                     ScrollView(showsIndicators: false) {
                         
                         Spacer()
-                            .frame(height: 25)
+                            .frame(height: 10)
                         
                         LazyVStack {
-                            if !sortedResults.isEmpty {
-                                
-                                VStack {
-                                    HStack {
-                                        VStack {
-                                            let formattedDate = currentMonthAndYear.formattedDate(date: currentMonthAndYear)
-                                            Text(formattedDate)
-                                                .font(.title3)
+                            
+                            VStack {
+                                HStack {
+                                    VStack {
+                                        let formattedDate = currentMonthAndYear.formattedDate(date: currentMonthAndYear)
+                                        Text(formattedDate)
+                                            .font(.title3)
+                                            .fontWeight(.bold)
+                                    }
+                                    
+                                    VStack {
+                                        Button(action: {
+                                            // show sheet that presents datepicker with confirm button
+                                            datePickerIsPresented.toggle()
+                                        }) {
+                                            Image(systemName: "chevron.down")
                                                 .fontWeight(.bold)
-                                        }
-                                        
-                                        VStack {
-                                            Button(action: {
-                                                // show sheet that presents datepicker with confirm button
-                                                datePickerIsPresented.toggle()
-                                            }) {
-                                                Image(systemName: "chevron.down")
-                                                    .fontWeight(.bold)
-                                            }
                                         }
                                     }
                                 }
-                                .frame(maxHeight: .infinity, alignment: .top)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.horizontal, 15)
+                            }
+                            .frame(maxHeight: .infinity, alignment: .top)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 10)
+                            
+                            if !sortedResults.isEmpty {
+                                
+//                                VStack {
+//                                    HStack {
+//                                        VStack {
+//                                            let formattedDate = currentMonthAndYear.formattedDate(date: currentMonthAndYear)
+//                                            Text(formattedDate)
+//                                                .font(.title3)
+//                                                .fontWeight(.bold)
+//                                        }
+//                                        
+//                                        VStack {
+//                                            Button(action: {
+//                                                // show sheet that presents datepicker with confirm button
+//                                                datePickerIsPresented.toggle()
+//                                            }) {
+//                                                Image(systemName: "chevron.down")
+//                                                    .fontWeight(.bold)
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                                .frame(maxHeight: .infinity, alignment: .top)
+//                                .frame(maxWidth: .infinity, alignment: .leading)
+//                                .padding(.horizontal, 15)
                                 
                                 Spacer()
                                     .frame(height: 25)
                                 
-                                ForEach(sortedResults, id: \.self) { entry in
+                                ForEach(taggedResults, id: \.self) { entry in
                                     ZStack {
                                         VStack(alignment: .leading) {
                                             
@@ -151,33 +195,52 @@ struct JournalView: View {
                                                 }
                                                 .frame(maxWidth: .infinity, alignment: .leading)
                                                 
-                                                Menu {
-                                                    Section {
-                                                        Button(action: {
-                                                            entry.isEditing = true
-                                                            entryBeingEdited = entry
-                                                        }) {
-                                                            Label("Edit", systemImage: "pencil")
+                                                VStack {
+                                                    HStack {
+                                                        if entry.isFavorited {
+                                                            Image(systemName: "heart.fill")
+                                                                .resizable()
+                                                                .frame(width: 17, height: 15)
+                                                                .foregroundStyle(.red)
+                                                        }
+                                                        
+                                                        Menu {
+                                                            Section {
+                                                                Button(action: {
+                                                                    entry.isEditing = true
+                                                                    entryBeingEdited = entry
+                                                                }) {
+                                                                    Label("Edit", systemImage: "pencil")
+                                                                }
+                                                                
+                                                                Button(action: {
+                                                                    entry.isFavorited.toggle()
+                                                                    print(entry.isFavorited)
+                                                                }) {
+                                                                    Label("Favorite", systemImage: entry.isFavorited ? "heart.fill" : "heart")
+                                                                }
+                                                            }
+                                                            
+                                                            Section {
+                                                                Button(role: .destructive, action: {
+                                                                    selectedEntry = entry
+                                                                    showDeletionAlert.toggle()
+                                                                }) {
+                                                                    Label("Delete", systemImage: "trash")
+                                                                }
+                                                            }
+                                                        } label: {
+                                                            Circle()
+                                                                .fill(.clear)
+                                                                .frame(width: 30, height: 30)
+                                                                .overlay {
+                                                                    Image(systemName: "ellipsis")
+                                                                        .foregroundStyle(Color("lighterGray"))
+                                                                        .fontWeight(.bold)
+                                                                }
                                                         }
                                                     }
-                                                    
-                                                    Section {
-                                                        Button(role: .destructive, action: {
-                                                            selectedEntry = entry
-                                                            showDeletionAlert.toggle()
-                                                        }) {
-                                                            Label("Delete", systemImage: "trash")
-                                                        }
-                                                    }
-                                                } label: {
-                                                    Circle()
-                                                        .fill(.clear)
-                                                        .frame(width: 30, height: 30)
-                                                        .overlay {
-                                                            Image(systemName: "ellipsis")
-                                                                .foregroundStyle(Color("lighterGray"))
-                                                                .fontWeight(.bold)
-                                                        }
+//                                                    .frame(maxWidth: .infinity, alignment: .trailing)
                                                 }
                                                 .frame(maxWidth: .infinity, alignment: .trailing)
                                             }
@@ -205,6 +268,7 @@ struct JournalView: View {
                     }
                 }
             }
+            .searchable(text: $searchText)
             .scrollContentBackground(.hidden)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

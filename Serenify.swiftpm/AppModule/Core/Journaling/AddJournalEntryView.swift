@@ -21,6 +21,8 @@ struct AddJournalEntryView: View {
     @State private var hapticsManager = HapticsManager()
     @State private var selectedPrompt = ""
     
+    @FocusState var fieldIsActive: Bool
+    
     let date = Date.now
     let colors = ["pastelBlue", "pastelGreen", "pastelGold", "pastelPink"]
     
@@ -42,6 +44,9 @@ struct AddJournalEntryView: View {
                 ZStack {
                     Color.black
                         .ignoresSafeArea()
+                        .onTapGesture {
+                            fieldIsActive = false
+                        }
                     ScrollView {
                         VStack {
                             
@@ -78,6 +83,7 @@ struct AddJournalEntryView: View {
                                     .foregroundStyle(.white)
                                     .frame(width: g.size.width * 0.9)
                                     .lineLimit(1...3)
+                                    .focused($fieldIsActive)
                                 
                                 Rectangle()
                                     .fill(Color("lightGray"))
@@ -91,12 +97,14 @@ struct AddJournalEntryView: View {
                                     .tint(Color("lightGray"))
                                     .frame(width: g.size.width * 0.9)
                                     .lineLimit(1...25)
+                                    .focused($fieldIsActive)
                             }
                             .multilineTextAlignment(.leading)
                             .padding(.horizontal, 15)
                         }
                     }
                     .frame(maxHeight: .infinity, alignment: .top)
+                    .scrollDismissesKeyboard(.interactively)
                 }
             }
             .toolbar {
