@@ -33,7 +33,7 @@ struct JournalView: View {
     @State private var datePickerIsPresented: Bool = false
     @State private var searchText = ""
     
-    let sortingOptions = ["Filter by Date", "Filter by Title", "Filter by Favorited"].sorted()
+    let sortingOptions = ["Filter by Date", "Filter by Title", "Filter by Pinned", "Filter by Favorited"].sorted()
     let months = Calendar.current.shortMonthSymbols
     
     let columns = [GridItem(.adaptive(minimum: 80))]
@@ -58,6 +58,8 @@ struct JournalView: View {
     var sortedResults: [Entry] {
         if selectedSortingOption == "Filter by Date" {
             return currentMonthResults.sorted(by: { $0.date > $1.date })
+        } else if selectedSortingOption == "Filter by Pinned" {
+            return currentMonthResults.filter { $0.isPinned }
         } else if selectedSortingOption == "Filter by Favorited" {
             return currentMonthResults.filter { $0.isFavorited }
         } else {
@@ -91,7 +93,7 @@ struct JournalView: View {
                     ScrollView(showsIndicators: false) {
                         
                         Spacer()
-                            .frame(height: 10)
+                            .frame(height: 5)
                         
                         LazyVStack {
                             
@@ -120,31 +122,7 @@ struct JournalView: View {
                             .padding(.horizontal, 10)
                             
                             if !sortedResults.isEmpty {
-                                
-//                                VStack {
-//                                    HStack {
-//                                        VStack {
-//                                            let formattedDate = currentMonthAndYear.formattedDate(date: currentMonthAndYear)
-//                                            Text(formattedDate)
-//                                                .font(.title3)
-//                                                .fontWeight(.bold)
-//                                        }
-//                                        
-//                                        VStack {
-//                                            Button(action: {
-//                                                // show sheet that presents datepicker with confirm button
-//                                                datePickerIsPresented.toggle()
-//                                            }) {
-//                                                Image(systemName: "chevron.down")
-//                                                    .fontWeight(.bold)
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                                .frame(maxHeight: .infinity, alignment: .top)
-//                                .frame(maxWidth: .infinity, alignment: .leading)
-//                                .padding(.horizontal, 15)
-                                
+
                                 Spacer()
                                     .frame(height: 25)
                                 
@@ -197,6 +175,14 @@ struct JournalView: View {
                                                 
                                                 VStack {
                                                     HStack {
+                                                        
+                                                        if entry.isPinned {
+                                                            Image(systemName: "pin.fill")
+                                                                .resizable()
+                                                                .frame(width: 13, height: 15)
+                                                                .foregroundStyle(.white)
+                                                        }
+                                                        
                                                         if entry.isFavorited {
                                                             Image(systemName: "heart.fill")
                                                                 .resizable()
@@ -211,6 +197,12 @@ struct JournalView: View {
                                                                     entryBeingEdited = entry
                                                                 }) {
                                                                     Label("Edit", systemImage: "pencil")
+                                                                }
+                                                                
+                                                                Button(action: {
+                                                                    entry.isPinned.toggle()
+                                                                }) {
+                                                                    Label("Pin", systemImage: entry.isPinned ? "pin.fill" : "pin")
                                                                 }
                                                                 
                                                                 Button(action: {
