@@ -19,6 +19,9 @@ class SoundPlayer {
     var duration: TimeInterval = 0.0
     var currentTime: TimeInterval = 0.0
     var soundReady = false
+    var isLooping = false
+    var isMuted = false
+    var currentVolume = Float(0)
     
     var formattedCurrentTime: String {
         
@@ -42,8 +45,6 @@ class SoundPlayer {
     
     var formattedTimeLeft: String {
         
-        // Formats the time remaining
-        
         let remainingTime = duration - currentTime
         
         let formatter = DateComponentsFormatter()
@@ -51,17 +52,13 @@ class SoundPlayer {
         formatter.zeroFormattingBehavior = .pad
         formatter.allowedUnits = [.minute, .second]
         
-        // Format the time
         let formattedTime = formatter.string(from: remainingTime)!
         
-        // Remove the leading zero if present
         if formattedTime.hasPrefix("0") && formattedTime.count > 4 {
             return String(formattedTime.dropFirst())
         }
         
         return formattedTime
-        
-//        return formatter.string(from: remainingTime)!
     }
     
     func getSound(name: String) {
@@ -110,14 +107,18 @@ class SoundPlayer {
         
         guard let audioPlayer else { return }
         
-        if currentTime < duration {
-            audioPlayer.currentTime += 10
+        let currentLength = duration - currentTime
+        
+        if currentLength < 10 && !isLooping {
+            // Prevents users from overskipping and instantly restarting the track
+            audioPlayer.currentTime += currentLength
             currentTime = audioPlayer.currentTime
-        } else {
             audioPlayer.stop()
             self.isPlaying = false
             self.changeImage = false
-            print("Repeat not allowed")
+        } else if currentTime < duration {
+            audioPlayer.currentTime += 10
+            currentTime = audioPlayer.currentTime
         }
     }
     
@@ -133,6 +134,46 @@ class SoundPlayer {
         } else {
             audioPlayer.stop()
             currentTime = 0
+        }
+    }
+    
+    @MainActor func loopAudio() {
+        
+        // Loops the current sound that is playing
+        
+        guard let audioPlayer else { return }
+        
+        if isLooping {
+            audioPlayer.numberOfLoops = -1
+        } else {
+            audioPlayer.numberOfLoops = 0
+            
+            /* Fixes bug that would appear when the user
+               would stop looping after a loop at 0.0-0.5 seconds
+               into the sound playing.
+             */
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                if self.currentTime == self.duration {
+                    audioPlayer.stop()
+                    self.isPlaying = false
+                    self.changeImage = false
+                }
+            }
+        }
+    }
+    
+    func muteAudio() {
+        
+        // Mutes the current sound that is playing
+        
+        guard let audioPlayer else { return }
+        
+        if isMuted {
+            currentVolume = audioPlayer.volume
+            audioPlayer.volume = 0
+        } else {
+            audioPlayer.volume = currentVolume
         }
     }
     

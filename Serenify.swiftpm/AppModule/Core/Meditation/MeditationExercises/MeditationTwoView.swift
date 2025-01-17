@@ -100,8 +100,21 @@ struct MeditationTwoView: View {
                                     
                                     VStack {
                                         HStack {
+                                            
                                             Button(action: {
-                                                // TODO: Go back 10 seconds
+                                                soundPlayer.isMuted.toggle()
+                                                soundPlayer.muteAudio()
+                                            }) {
+                                                Image(systemName: soundPlayer.isMuted ? "speaker.slash.fill" : "speaker.fill")
+                                                    .resizable()
+                                                    .frame(width: 20, height: 20)
+                                                    .foregroundStyle(.white)
+                                            }
+                                            
+                                            Spacer()
+                                                .frame(width: g.size.width * 0.07)
+                                            
+                                            Button(action: {
                                                 soundPlayer.goBackwardTenSeconds()
                                             }) {
                                                 Image(systemName: "gobackward.10")
@@ -141,7 +154,6 @@ struct MeditationTwoView: View {
                                                     .onReceive(timer) { i in
                                                         if soundPlayer.isPlaying && currentCount <= 154 {
                                                             currentCount += 1
-//
                                                             soundPlayer.updateVariables()
                                                             
                                                             if currentCount == 154 || soundPlayer.currentTime == 0 {
@@ -158,7 +170,6 @@ struct MeditationTwoView: View {
                                                 .frame(width: g.size.width * 0.07)
                                             
                                             Button(action: {
-                                                // TODO: Go forward 10 seconds
                                                 soundPlayer.goForwardTenSeconds()
                                             }) {
                                                 Image(systemName: "goforward.10")
@@ -167,7 +178,33 @@ struct MeditationTwoView: View {
                                                     .frame(width: 30, height: 35)
                                                     .offset(y: -1)
                                             }
-                                            .disabled(soundPlayer.currentTime == 65)
+                                            .disabled(soundPlayer.currentTime == 154)
+                                            
+                                            Spacer()
+                                                .frame(width: g.size.width * 0.07)
+                                            
+                                            Button(action: {
+                                                soundPlayer.isLooping.toggle()
+                                                soundPlayer.loopAudio()
+                                            }) {
+                                                if soundPlayer.isLooping {
+                                                    VStack {
+                                                        Image(systemName: "repeat")
+                                                            .resizable()
+                                                            .frame(width: 20, height: 20)
+                                                            .foregroundStyle(.white)
+                                                        Circle()
+                                                            .fill(.white)
+                                                            .frame(width: 5, height: 5)
+                                                            .offset(y: -1)
+                                                    }
+                                                } else {
+                                                    Image(systemName: "repeat")
+                                                        .resizable()
+                                                        .frame(width: 20, height: 20)
+                                                        .foregroundStyle(.white)
+                                                }
+                                            }
                                         }
                                     }
                                     .frame(maxHeight: .infinity, alignment: .bottom)
