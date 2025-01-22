@@ -21,8 +21,12 @@ struct HomeView: View {
     @State private var hapticsManager = HapticsManager()
     @State private var typeNum = 0
     @State private var currentDateAndTime = Date.now
+    @State private var affirmationsTop : Color = .black
+    @State private var affirmationsBottom : Color = .black
     
     let positiveAffirmations = Affirmations()
+    let coreColors: [Color] = [Color("pastelBlue"), Color("pastelGreen"), Color("pastelGold"), Color("pastelPink")]
+    let darkerCoreColors : [Color] = [Color("darkerPastelBlue"), Color("darkerPastelGreen"), Color("darkerPastelGold"), Color("darkerPastelPink")]
     
     var moods: [Mood]
     var entries: [Entry]
@@ -230,7 +234,9 @@ struct HomeView: View {
                     
                     VStack {
                         RoundedRectangle(cornerRadius: 15.0)
-                            .fill(.regularMaterial)
+                            // TODO: Make the background a random core color
+//                            .fill(.regularMaterial)
+                            .fill(LinearGradient(colors: [affirmationsTop, affirmationsBottom], startPoint: .top, endPoint: .bottom))
                             .frame(width: g.size.width * 0.9, height: 125)
                             .overlay {
                                 VStack {
@@ -397,6 +403,10 @@ struct HomeView: View {
         let randomIndex = Int.random(in: 0..<length)
         
         currentAffirmation = positiveAffirmations.affirmations[randomIndex]
+        
+        let randomColorIndex = Int.random(in: 0..<coreColors.count)
+        affirmationsTop = coreColors[randomColorIndex]
+        affirmationsBottom = darkerCoreColors[randomColorIndex]
     }
     
     func addMood(mood: Mood) {
@@ -421,6 +431,10 @@ struct HomeView: View {
     }
     
     func returnView(time: String, width: CGFloat) -> AnyView {
+        
+        /* Returns a suggestion section based on the current
+           time of the day. */
+        
         let timeAsInt = Int(time)!
         
         if timeAsInt >= 060000 && timeAsInt <= 115900 {

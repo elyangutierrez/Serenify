@@ -1,13 +1,13 @@
 //
-//  SwiftUIView 2.swift
+//  SwiftUIView.swift
 //  Serenify
 //
-//  Created by Elyan Gutierrez on 11/7/24.
+//  Created by Elyan Gutierrez on 1/22/25.
 //
 
 import SwiftUI
 
-struct MeditationTwoView: View {
+struct MeditationTemplateView: View {
     
     @Environment(\.dismiss) var dismiss
     
@@ -16,29 +16,32 @@ struct MeditationTwoView: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var soundPlayer: SoundPlayer
+    var info: [String: String]
     
     var body: some View {
         NavigationStack {
             GeometryReader { g in
                 ZStack {
                     VStack {
-                        Image("pinkRiver")
+                        Image(info["image"]!)
                             .resizable()
                             .ignoresSafeArea()
                             .frame(width: g.size.width, height: g.size.height * 0.7)
                             .scaledToFit()
                             .overlay {
                                 VStack {
-                                    Text("Pink Alps")
+                                    Text(info["title"]!)
                                         .font(.title)
                                         .fontWeight(.bold)
                                         .foregroundStyle(.white)
                                     
                                     Spacer()
                                         .frame(height: 10)
-                                    Text("Focus on the river and")
-                                    Text("envision yourself there.")
-                                         
+                                    VStack {
+                                        Text(info["description"]!)
+                                            .frame(width: g.size.width * 0.6)
+                                            .multilineTextAlignment(.center)
+                                    }
                                     
                                     Spacer()
                                         .frame(height: g.size.height * 0.03)
@@ -56,7 +59,7 @@ struct MeditationTwoView: View {
                     }
                     .frame(maxHeight: .infinity, alignment: .top)
                     ZStack {
-                        Image("pinkRiver")
+                        Image(info["image"]!)
                             .resizable()
                             .ignoresSafeArea()
                             .frame(width: g.size.width, height: g.size.height * 0.3)
@@ -64,7 +67,7 @@ struct MeditationTwoView: View {
                             .rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
                             .blur(radius: 45, opaque: true)
                             .mask {
-                                LinearGradient(colors: [Color.clear, Color.black.opacity(1)], startPoint: .bottom, endPoint: .top)
+                                LinearGradient(colors: [Color.clear, Color.black.opacity(0.8)], startPoint: .bottom, endPoint: .top)
                             }
                             .overlay {
                                 ZStack {
@@ -238,5 +241,5 @@ struct MeditationTwoView: View {
 }
 
 #Preview {
-    MeditationTwoView(soundPlayer: SoundPlayer())
+    MeditationTemplateView(soundPlayer: SoundPlayer(), info: [String: String]())
 }

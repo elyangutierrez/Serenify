@@ -148,17 +148,11 @@ class SoundPlayer {
         } else {
             audioPlayer.numberOfLoops = 0
             
-            /* Fixes bug that would appear when the user
-               would stop looping after a loop at 0.0-0.5 seconds
-               into the sound playing.
-             */
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                if self.currentTime == self.duration {
-                    audioPlayer.stop()
-                    self.isPlaying = false
-                    self.changeImage = false
-                }
+            // If the user stops the loop, pause the audio
+            if self.changeImage || self.isPlaying {
+                self.changeImage = false
+                self.isPlaying = false
+                audioPlayer.pause()
             }
         }
     }
@@ -192,5 +186,7 @@ class SoundPlayer {
         audioPlayer = nil
         isPlaying = false
         changeImage = false
+        isLooping = false
+        isMuted = false
     }
 }

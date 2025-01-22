@@ -21,7 +21,7 @@ struct ProgressBarView: View {
             RoundedRectangle(cornerRadius: 15.0)
                 .frame(width: width * (current / total), height: 5)
                 .animation(.smooth, value: Double(current / total))
-//                .shadow(color: .white, radius: 5)
+                .shadow(color: .white, radius: 5)
 //                .shadow(color: .white, radius: 2.5)
         }
     }
