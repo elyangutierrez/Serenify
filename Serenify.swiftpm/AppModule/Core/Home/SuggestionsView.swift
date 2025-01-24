@@ -2,12 +2,12 @@
 //  SwiftUIView.swift
 //  Serenify
 //
-//  Created by Elyan Gutierrez on 12/14/24.
+//  Created by Elyan Gutierrez on 1/23/25.
 //
 
 import SwiftUI
 
-struct SuggestionOneView: View {
+struct SuggestionsView: View {
     
     @State private var breathing = ""
     @State private var journaling = ""
@@ -15,9 +15,10 @@ struct SuggestionOneView: View {
     
     var suggestions = Suggestions()
     var width: CGFloat
+    var currentTime: String
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 15) {
+        VStack(alignment: .leading, spacing: 10) {
             VStack(alignment: .leading) {
                 Text("Breathing")
                     .font(.headline)
@@ -96,11 +97,24 @@ struct SuggestionOneView: View {
     }
     
     func getSuggestions() {
-        let morningSuggestions = suggestions.morningSuggestions
         
-        let breathingArray = morningSuggestions["Breathing"]!
-        let journalingArray = morningSuggestions["Journaling"]!
-        let meditationArray = morningSuggestions["Meditation"]!
+        var currentSuggestions = [String: [String]]()
+        
+        let timeAsInt = Int(currentTime)
+        
+        guard let timeAsInt else { return }
+        
+        if timeAsInt >= 060000 && timeAsInt < 115900 {
+            currentSuggestions = suggestions.morningSuggestions
+        } else if timeAsInt >= 120000 && timeAsInt <= 175900 {
+            currentSuggestions = suggestions.afternoonSuggestions
+        } else {
+            currentSuggestions = suggestions.eveningSuggestions
+        }
+        
+        let breathingArray = currentSuggestions["Breathing"]!
+        let journalingArray = currentSuggestions["Journaling"]!
+        let meditationArray = currentSuggestions["Meditation"]!
         
         let randomNum = Int.random(in: 0..<breathingArray.count)
         breathing = breathingArray[randomNum]
@@ -108,10 +122,9 @@ struct SuggestionOneView: View {
         journaling = journalingArray[randomNum2]
         let randomNum3 = Int.random(in: 0..<meditationArray.count)
         meditation = meditationArray[randomNum3]
-
     }
 }
 
 #Preview {
-    SuggestionOneView(width: 330)
+    SuggestionsView(width: 330, currentTime: "110011")
 }

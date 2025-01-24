@@ -47,7 +47,6 @@ struct HomeView: View {
                         .frame(height: 15)
                     
                     VStack {
-                        // days
                         HStack {
                             /* In order to iterate through both arrays, zip them and wrap the
                                zip around an Array.*/
@@ -195,12 +194,11 @@ struct HomeView: View {
                                         .frame(height: 25)
                                     
                                     Button(action: {
-                                        // TODO: Convert the image to data
                                         guard let selectedMood else { return }
-                                        print("Got the selectedMood!")
+//                                        print("Got the selectedMood!") # DEBUG
                                         let data = dataManager.convertImageToData(image: selectedMood)
                                         guard let data else { return }
-                                        print("Got the data: \(data)")
+//                                        print("Got the data: \(data)") # DEBUG
                                         let mood = Mood(emoji: data, type: typeNum, date: .now)
                                         addMood(mood: mood)
                                         hapticsManager.submittedMood()
@@ -234,8 +232,6 @@ struct HomeView: View {
                     
                     VStack {
                         RoundedRectangle(cornerRadius: 15.0)
-                            // TODO: Make the background a random core color
-//                            .fill(.regularMaterial)
                             .fill(LinearGradient(colors: [affirmationsTop, affirmationsBottom], startPoint: .top, endPoint: .bottom))
                             .frame(width: g.size.width * 0.9, height: 125)
                             .overlay {
@@ -273,7 +269,7 @@ struct HomeView: View {
                     .padding(.horizontal, 15)
                     
                     VStack {
-                        returnView(time: getTime, width: g.size.width * 0.85)
+                        SuggestionsView(width: g.size.width * 0.85, currentTime: getTime)
                     }
                     
                     Spacer()
@@ -386,7 +382,7 @@ struct HomeView: View {
             .navigationBarTitleDisplayMode(.automatic)
             .onAppear {
                 getDateMethods()
-                print(getTime)
+//                print(getTime) # DEBUG
             }
         }
     }
@@ -428,22 +424,6 @@ struct HomeView: View {
         } else {
             modelContext.insert(mood)
         }
-    }
-    
-    func returnView(time: String, width: CGFloat) -> AnyView {
-        
-        /* Returns a suggestion section based on the current
-           time of the day. */
-        
-        let timeAsInt = Int(time)!
-        
-        if timeAsInt >= 060000 && timeAsInt <= 115900 {
-            return AnyView(SuggestionOneView(width: width))
-        } else if timeAsInt >= 120000 && timeAsInt <= 175900 {
-            return AnyView(SuggestionTwoView(width: width))
-        }
-        
-        return AnyView(SuggestionThreeView(width: width))
     }
 }
 
