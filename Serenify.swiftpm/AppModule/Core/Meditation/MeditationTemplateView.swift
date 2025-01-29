@@ -62,12 +62,14 @@ struct MeditationTemplateView: View {
                         Image(info["image"]!)
                             .resizable()
                             .ignoresSafeArea()
+                            .aspectRatio(contentMode: .fill)
                             .frame(width: g.size.width, height: g.size.height * 0.3)
-                            .scaledToFit()
+                            .offset(y: -175)
+                            .clipped()
                             .rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
-                            .blur(radius: 45, opaque: true)
+                            .blur(radius: 55, opaque: true)
                             .mask {
-                                LinearGradient(colors: [Color.clear, Color.black.opacity(0.8)], startPoint: .bottom, endPoint: .top)
+                                LinearGradient(colors: [Color.clear, Color.black.opacity(0.9)], startPoint: .bottom, endPoint: .top)
                             }
                             .overlay {
                                 ZStack {
