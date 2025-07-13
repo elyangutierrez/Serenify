@@ -195,10 +195,10 @@ struct HomeView: View {
                                     
                                     Button(action: {
                                         guard let selectedMood else { return }
-//                                        print("Got the selectedMood!") # DEBUG
+                                        print("Got the selectedMood!")
                                         let data = dataManager.convertImageToData(image: selectedMood)
                                         guard let data else { return }
-//                                        print("Got the data: \(data)") # DEBUG
+                                        print("Got the data: \(data)")
                                         let mood = Mood(emoji: data, type: typeNum, date: .now)
                                         addMood(mood: mood)
                                         hapticsManager.submittedMood()
